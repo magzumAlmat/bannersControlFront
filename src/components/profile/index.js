@@ -22,7 +22,8 @@ import { useSelector,useDispatch } from 'react-redux'
 import Header from '../header';
 import { authorize } from '@/store/slices/authSlice';
 import jwtDecode from 'jwt-decode'
-
+import axios from 'axios';
+import { getUserInfo } from '@/store/slices/authSlice';
 const Home = () => {
     return (
         <div>
@@ -41,35 +42,48 @@ export default function ProfileComponent(user) {
     const TOKEN=useSelector((state) => state.auth.authToken);
 
     console.log('CURRENT USER FROM PROFILE isAuth=',isAuth)
-    console.log('CURRENT USER FROM PROFILE TOKEN=',TOKEN)
-    console.log('CURRENT USER FROM PROFILE CurrentUser=',CurrentUser)
+    console.log('12CURRENT USER FROM PROFILE TOKEN=',TOKEN)
+    console.log('123CURRENT USER FROM PROFILE CurrentUser=',CurrentUser)
 
-    const [tokenState,setTokenState]=useState(TOKEN)
+    const [tokenState,setTokenState]=useState(CurrentUser)
 
     const token=localStorage.getItem('token')
 
     console.log('Initialize tokenState=',tokenState)
-     
+    console.log('1 edited current USER',CurrentUser)
+
+    const arrayCurrUser=CurrentUser
+
     useEffect(()=>{
         if (user!=null){
             console.log('user is null')
         }
-        
+ 
+       
 
-        console.log('1User from parent',user)
+        // console.log('1User from parent',user)
+        
+        // localStorage.setItem('token',)
+       dispatch(getUserInfo)
+       console.log('1 edited current USER',CurrentUser)
+
+
         if(token){
-            let decodedToken=jwtDecode(token)
+            
             setTokenState(CurrentUser)
             
+
             // localStorage.setItem('token',tokenState)
             // dispatch(authorize({tokenState}))
 
         }
-        else{
-            localStorage.removeItem('token')
-        }
-    },[TOKEN])  
+        // else{
+        //     localStorage.removeItem('token')
+        // }
+    },[])  
 
+    console.log('2 edited current user', CurrentUser)
+    console.log('TOOoOOOOOOken', token)
     return (
         
         <div className='flexColumn'>
@@ -77,10 +91,10 @@ export default function ProfileComponent(user) {
 
             
             
-            <div>Email: {tokenState.email} </div>
-             <div>name:{tokenState.name} </div>
-             <div>lastName:{tokenState.lastname}</div>
-             <div> phone:{tokenState.phone}</div>
+            <div>Email: {CurrentUser.email} </div>
+             <div>name:{CurrentUser.name} </div>
+             {/* <div>lastName:{tokenState && CurrentUser.lastname}</div>
+             <div> phone:{tokenState && CurrentUser.phone}</div> */}
             
             <Home/>
 

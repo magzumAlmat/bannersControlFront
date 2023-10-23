@@ -73,6 +73,11 @@ export const authSlice = createSlice({
   initialState,
 
   reducers: {
+    setCurrentUser:(state,action)=>{
+      console.log('serCURR USER',action.payload)
+      state.currentUser=action.payload
+    },
+
     authorize: (state, action) => {
 
       state.someVar=action.payload
@@ -169,7 +174,7 @@ export const authSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer} = authSlice.actions;
+export const { authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer,setCurrentUser} = authSlice.actions;
 
 // Use useEffect for token initialization
 // export const useTokenInitialization = () => {
@@ -209,6 +214,23 @@ export const { authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer} 
 //   console.log('Token не найден');
 //   return null;
 // };
+
+export const  getUserInfo=async(dispatch)=>{
+  
+  const response = await axios.get(
+    `${END_POINT}/api/auth/getAuthentificatedUserInfo`,{
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json', // Set the content type to JSON
+      },
+    }
+  ).then((response) => {
+    console.log('response ',response)
+    dispatch(setCurrentUser(response.data));
+  });
+};
+
+
 
 export const useTokenInitialization = () => {
   const dispatch = useDispatch();

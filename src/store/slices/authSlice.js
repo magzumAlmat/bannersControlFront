@@ -111,7 +111,10 @@ export const authSlice = createSlice({
       state.currentUser = {
         id: decoded.id,
         email: decoded.email,
-        code:decoded.code
+        code:decoded.code,
+        name:decoded.name,
+        phone:decoded.phone,
+        lastname:decoded.lastname,
       };
       state.isAuth = true;
   },

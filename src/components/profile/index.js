@@ -34,7 +34,7 @@ const Home = () => {
 
 export default function ProfileComponent(user) {
     const dispatch=useDispatch()
-    // console.log(user)
+    
     const {pathname} = useRouter();
     const CurrentUser= useSelector((state) => state.auth.currentUser);
     const isAuth= useSelector((state) => state.auth.isAuth);
@@ -44,21 +44,23 @@ export default function ProfileComponent(user) {
     console.log('CURRENT USER FROM PROFILE TOKEN=',TOKEN)
     console.log('CURRENT USER FROM PROFILE CurrentUser=',CurrentUser)
 
-    const [tokenState,setTokenState]=useState()
+    const [tokenState,setTokenState]=useState(TOKEN)
+
     const token=localStorage.getItem('token')
 
+    console.log('Initialize tokenState=',tokenState)
      
     useEffect(()=>{
         if (user!=null){
             console.log('user is null')
         }
         
-        
+
         console.log('1User from parent',user)
         if(token){
             let decodedToken=jwtDecode(token)
             setTokenState(CurrentUser)
-
+            
             // localStorage.setItem('token',tokenState)
             // dispatch(authorize({tokenState}))
 
@@ -66,36 +68,20 @@ export default function ProfileComponent(user) {
         else{
             localStorage.removeItem('token')
         }
-    },[CurrentUser])  
+    },[TOKEN])  
 
     return (
         
         <div className='flexColumn'>
-        {/* <Nav>
-                <NavItem>
-                    <Link href="/layout">Главная</Link>
-                </NavItem>
-                <NavItem>
-                    <Link href="/addprofiledatapage">Заполнить профиль</Link>
-                </NavItem>
-                <NavItem>
-                    <Link href="/addcompany">Создать компанию</Link>
-                </NavItem>
-                <NavItem>
-                    <Link href="/addbanner">Создать баннер</Link>
-                </NavItem>
-                <NavItem>
-                    <Link href="/customerprofile">Профиль</Link>
-                </NavItem>
-
-                 
-
-                </Nav> */}
+        
 
             
-            {/* <Header loggedIn={true}/> */}
-
-            {tokenState&& <p>Name: {tokenState.name}</p>}
+            
+            <div>Email: {tokenState.email} </div>
+             <div>name:{tokenState.name} </div>
+             <div>lastName:{tokenState.lastname}</div>
+             <div> phone:{tokenState.phone}</div>
+            
             <Home/>
 
         </div>

@@ -74,8 +74,10 @@ export const authSlice = createSlice({
 
   reducers: {
     setCurrentUser:(state,action)=>{
-      console.log('serCURR USER',action.payload)
+      console.log('1.3 setCurrentUser',action.payload)
       state.currentUser=action.payload
+      console.log('1.4 CURRENT  USER CHANGED IN setCurrentUser',state.currentUser)
+
     },
 
     authorize: (state, action) => {
@@ -216,7 +218,7 @@ export const { authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer,s
 // };
 
 export const  getUserInfo=async(dispatch)=>{
-  
+  console.log('1 getUserInFo started')
   const response = await axios.get(
     `${END_POINT}/api/auth/getAuthentificatedUserInfo`,{
       headers: {
@@ -225,7 +227,7 @@ export const  getUserInfo=async(dispatch)=>{
       },
     }
   ).then((response) => {
-    console.log('response ',response)
+    console.log('1.2 getUserInFo response ',response.data)
     dispatch(setCurrentUser(response.data));
   });
 };

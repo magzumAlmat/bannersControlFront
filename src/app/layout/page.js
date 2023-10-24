@@ -8,22 +8,22 @@ import { useEffect } from 'react'
 import { authorize } from '@/store/slices/authSlice'
 export default function Layout(user) {
     const dispatch = useDispatch(user);
-    useEffect(()=>{
+    // useEffect(()=>{
       
-        console.log('Use effect сработал при рефреше страницы')
-        const token=localStorage.getItem('token')
-        // console.log('22pofile token',token)
-        if(token){
-            let decodedToken=jwtDecode(token)
-            console.log('layoutPage=  decodedToken==',decodedToken)
+    //     console.log('Use effect сработал при рефреше страницы')
+    //     const token=localStorage.getItem('token')
+    //     // console.log('22pofile token',token)
+    //     if(token){
+    //         let decodedToken=jwtDecode(token)
+    //         console.log('layoutPage=  decodedToken==',decodedToken)
             
-            dispatch(authorize({token}))
+    //         dispatch(authorize({token}))
             
-        }
-        else{
-            localStorage.removeItem('token')
-        }
-    },[])  
+    //     }
+    //     else{
+    //         localStorage.removeItem('token')
+    //     }
+    // },[])  
   
 
 

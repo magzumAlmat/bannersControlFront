@@ -27,27 +27,30 @@ import {
 } from 'reactstrap';
 import Link from 'next/link';
 import { authorize } from '@/store/slices/authSlice';
+import { useTokenInitialization } from '@/store/slices/authSlice';
 export default function Header(user) {
 
 
 
   console.log('user=',user.loggedIn)
-  // const dispatch = useDispatch();
-  // useEffect(()=>{
-  //     if (user!=null){
-  //         console.log('user is null')
-  //     }
+  const dispatch = useDispatch();
+  useEffect(()=>{
+      if (user!=null){
+          console.log('user is null')
+      }
 
-  //     const token=localStorage.getItem('token')
-  //     // console.log('22pofile token',token)
-  //     if(token){
-  //         let decodedToken=jwtDecode(token)
-  //         dispatch(authorize({token}))
-  //     }
-  //     else{
-  //         localStorage.removeItem('token')
-  //     }
-  // },[])  
+    //   useTokenInitialization()
+      const token=localStorage.getItem('token')
+      // console.log('22pofile token',token)
+      if(token){
+          let decodedToken=jwtDecode(token)
+          dispatch(authorize({token}))
+          
+      }
+      else{
+          localStorage.removeItem('token')
+      }
+  },[dispatch])  
   
 
   let [LoggedIn,setLoggedIn] = useState(false)

@@ -52,27 +52,30 @@ export default function ProfileComponent(user) {
     console.log('Initialize tokenState=',tokenState)
     console.log('1 edited current USER',CurrentUser)
 
-    const arrayCurrUser=CurrentUser
+
 
     useEffect(()=>{
+        console.log('Я отработался')
+        dispatch(authorize(token))
         if (user!=null){
             console.log('user is null')
         }
- 
-       
-
         // console.log('1User from parent',user)
         
         // localStorage.setItem('token',)
        dispatch(getUserInfo)
-       console.log('1 edited current USER',CurrentUser)
-
+       console.log('2 edited current USER',CurrentUser)
 
         if(token){
             
             setTokenState(CurrentUser)
             
-
+            localStorage.setItem('email',    tokenState.email);
+            localStorage.setItem('name',     tokenState.name);
+            localStorage.setItem('lastname', tokenState.lastname);
+            localStorage.setItem('phone',    tokenState.phone);
+            
+          
             // localStorage.setItem('token',tokenState)
             // dispatch(authorize({tokenState}))
 
@@ -80,19 +83,20 @@ export default function ProfileComponent(user) {
         // else{
         //     localStorage.removeItem('token')
         // }
-    },[])  
+    },[dispatch])  
 
     console.log('2 edited current user', CurrentUser)
     console.log('TOOoOOOOOOken', token)
+    const storedEmail = localStorage.getItem('email');
+    const storedToken = localStorage.getItem('name');
+
     return (
         
         <div className='flexColumn'>
-        
-
             
             
-            <div>Email: {CurrentUser.email} </div>
-             <div>name:{CurrentUser.name} </div>
+            <div>email:{storedEmail}</div>
+            <div>name:{storedToken}</div>
              {/* <div>lastName:{tokenState && CurrentUser.lastname}</div>
              <div> phone:{tokenState && CurrentUser.phone}</div> */}
             
@@ -101,4 +105,3 @@ export default function ProfileComponent(user) {
         </div>
     );
 }
-

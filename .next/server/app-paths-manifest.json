@@ -3,5 +3,7 @@
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/login/page": "app/login/page.js",
   "/layout/page": "app/layout/page.js",
-  "/addprofiledatapage/page": "app/addprofiledatapage/page.js"
+  "/addprofiledatapage/page": "app/addprofiledatapage/page.js",
+  "/addbanner/page": "app/addbanner/page.js",
+  "/addcompany/page": "app/addcompany/page.js"
 }

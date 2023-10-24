@@ -11,6 +11,7 @@ const initialState = {
   someVar: 'blah blah blah',
   authToken: '',
   codeFromServer:'none',
+  bannersById:''
   
 };
 const token = localStorage.getItem('token');
@@ -68,11 +69,19 @@ const token = localStorage.getItem('token');
 //   },
 // });
 
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
 
   reducers: {
+
+    getBannerByCompanyIdReducer:(state,action)=>{
+      console.log('1.3 getBannerByCompanyIdReducer-',action.payload)
+      state.bannersById=action.payload
+      console.log('1.3 getBannerByCompanyIdReducer-',state.bannersById)
+    },
+
     setCurrentUser:(state,action)=>{
       console.log('1.3 setCurrentUser',action.payload)
       state.currentUser=action.payload
@@ -176,7 +185,7 @@ export const authSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer,setCurrentUser} = authSlice.actions;
+export const { authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer,setCurrentUser,getBannerByCompanyIdReducer} = authSlice.actions;
 
 // Use useEffect for token initialization
 // export const useTokenInitialization = () => {
@@ -216,6 +225,20 @@ export const { authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer,s
 //   console.log('Token не найден');
 //   return null;
 // };
+export const  getBannerByCompanyIdAction= (companyId) => async(dispatch) => {
+  console.log('1 getBannerByCompanyId started')
+  const response = await axios.get(
+    `${END_POINT}/api/banner/getbycompanyid/${companyId}`,{
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json', // Set the content type to JSON
+      },
+    }
+  ).then((response) => {
+    console.log('1.2 getBannerByCompanyId response ',response.data)
+    dispatch(getBannerByCompanyIdReducer(response.data));
+  });
+};
 
 export const  getUserInfo=async(dispatch)=>{
   console.log('1 getUserInFo started')

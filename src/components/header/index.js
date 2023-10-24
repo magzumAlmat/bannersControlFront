@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import imageicon from '/src/app/icons/icon-profile.png';
 
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -27,30 +28,28 @@ import {
 } from 'reactstrap';
 import Link from 'next/link';
 import { authorize } from '@/store/slices/authSlice';
-import { useTokenInitialization } from '@/store/slices/authSlice';
+import Image from "next/image";
 export default function Header(user) {
 
 
 
   console.log('user=',user.loggedIn)
-  const dispatch = useDispatch();
-  useEffect(()=>{
-      if (user!=null){
-          console.log('user is null')
-      }
+  // const dispatch = useDispatch();
+  // useEffect(()=>{
+  //     if (user!=null){
+  //         console.log('user is null')
+  //     }
 
-    //   useTokenInitialization()
-      const token=localStorage.getItem('token')
-      // console.log('22pofile token',token)
-      if(token){
-          let decodedToken=jwtDecode(token)
-          dispatch(authorize({token}))
-          
-      }
-      else{
-          localStorage.removeItem('token')
-      }
-  },[dispatch])  
+  //     const token=localStorage.getItem('token')
+  //     // console.log('22pofile token',token)
+  //     if(token){
+  //         let decodedToken=jwtDecode(token)
+  //         dispatch(authorize({token}))
+  //     }
+  //     else{
+  //         localStorage.removeItem('token')
+  //     }
+  // },[])  
   
 
   let [LoggedIn,setLoggedIn] = useState(false)
@@ -95,19 +94,21 @@ export default function Header(user) {
                     <Link href="/layout">Главная</Link>
                 </NavItem>
                 <NavItem>
-                    <Link href="/addprofiledatapage">Заполнить профиль</Link>
-                </NavItem>
-                <NavItem>
                     <Link href="/addcompany">Создать компанию</Link>
                 </NavItem>
                 <NavItem>
                     <Link href="/addbanner">Создать баннер</Link>
                 </NavItem>
-                <NavItem className="ml-auto">
-                    <Link href="/customerprofile">Профиль</Link>
-                </NavItem>
             </Nav>
           </Container>
+        <Container className='d-flex justify-content-end'>
+          <Nav navbar>
+            <Link href="/customerprofile">
+              <Image src={imageicon} alt="иконка профиля"/>
+            </Link>
+          </Nav>
+
+        </Container>
         </Navbar>
 }
     </>

@@ -16,15 +16,20 @@
       "static/chunks/main-app.js",
       "static/chunks/app/layout/page.js"
     ],
-    "/addprofiledatapage/page": [
+    "/customerprofile/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/addprofiledatapage/page.js"
+      "static/chunks/app/customerprofile/page.js"
     ],
-    "/not-found": [
+    "/addcompany/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/not-found.js"
+      "static/chunks/app/addcompany/page.js"
+    ],
+    "/addbanner/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/addbanner/page.js"
     ]
   }
 }

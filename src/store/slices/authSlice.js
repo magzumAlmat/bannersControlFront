@@ -131,6 +131,7 @@ export const authSlice = createSlice({
         name:decoded.name,
         phone:decoded.phone,
         lastname:decoded.lastname,
+        companyId:decoded.companyId,
       };
       state.isAuth = true;
   },

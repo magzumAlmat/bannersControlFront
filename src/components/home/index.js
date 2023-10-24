@@ -1,37 +1,70 @@
 import { useEffect } from "react";
 import { useDispatch,useSelector } from "react-redux";
 import { getBannerByCompanyIdAction } from "@/store/slices/authSlice";
+import jwtDecode from "jwt-decode";
 export default function Home() {
+    const host ='http://localhost:8000'
+    const token=localStorage.getItem('token')
+    let decodedToken=jwtDecode(token)
+    console.log('decodec token from home',decodedToken)
     const dispatch=useDispatch()
-const banners= useSelector((state) => state.auth.bannersById);
-console.log(banners)
-useEffect(()=>{
+    const banners= useSelector((state) => state.auth.bannersById);
+    console.log('banners==',banners)
+    const bannersArray=[]
+    bannersArray.push(...banners)
+    console.log('bannersArray=',bannersArray)
+
+    useEffect(()=>{
     
-    dispatch(getBannerByCompanyIdAction(8))
-},[])
+    dispatch(getBannerByCompanyIdAction(decodedToken.companyId))
+    
+    },[dispatch])
 
     return(
         <div className='container'>
-            <h1>
-                Баннеры
-            </h1>
-            <div className="container-fluid">
-                <div className="container mt-5 border">
-                    <div className="row p-3">
-                        <div className="col-sm-4">
-                            <img  height='100%' width='100%' src="https://alakt-photos-kl.kcdn.kz/webp/91/912cc872-ca84-438a-9cf0-9a69ffcfc884/17-750x470.webp" alt="alt banner"/>
+            
+            {banners ? (
+                <div className="container-fluid">
+                    <h1>Баннеры</h1>
+                {bannersArray.map((item)=>(
+                
+                    <div className="container mt-5 border mb-5">
+                        
+                        <div className="row p-3">
+                            <div className="col-sm-2">
+                                <img  style={{'width':'100%'}} src={`${host}/${item.imageUrl}`} alt="alt banner"/>
+                            </div>
+                            <div className="col-sm-10">
+                        
+                                      <h1>Banner title:{item.title}</h1>
+                                        <p>Banner number: {item.bannerNumber}</p>
+                                        <p>Banner address:{item.banerAddress} </p>
+                                        <p>Banner unique id:{item.uniqueCode} </p>
+                                       
+    
+                                
+                         
+    
+                                   
+                                 
+    
+                              
+                            </div>
                         </div>
-                        <div className="col-sm-8">
-                            <h1>Banner title place</h1>
-                            <p className='mt-5'>Banner number:</p>
-                            <p>Banner address: </p>
-                            <p>Banner unique id: </p>
-                            <p>Banner company name: </p>
-                        </div>
+                      
+                                   
                     </div>
+                      ))}
+    
                 </div>
-
-            </div>
+            ) : (
+                <>
+                <h1>
+                    nothing
+                </h1>
+                </>
+            )}
+            
 
         </div>
     );

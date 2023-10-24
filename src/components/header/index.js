@@ -34,22 +34,22 @@ export default function Header(user) {
 
 
   console.log('user=',user.loggedIn)
-  // const dispatch = useDispatch();
-  // useEffect(()=>{
-  //     if (user!=null){
-  //         console.log('user is null')
-  //     }
+  const dispatch = useDispatch();
+  useEffect(()=>{
+      if (user!=null){
+          console.log('user is null')
+      }
 
-  //     const token=localStorage.getItem('token')
-  //     // console.log('22pofile token',token)
-  //     if(token){
-  //         let decodedToken=jwtDecode(token)
-  //         dispatch(authorize({token}))
-  //     }
-  //     else{
-  //         localStorage.removeItem('token')
-  //     }
-  // },[])  
+      const token=localStorage.getItem('token')
+      // console.log('22pofile token',token)
+      if(token){
+          let decodedToken=jwtDecode(token)
+          dispatch(authorize({token}))
+      }
+      else{
+          localStorage.removeItem('token')
+      }
+  },[])  
   
 
   let [LoggedIn,setLoggedIn] = useState(false)

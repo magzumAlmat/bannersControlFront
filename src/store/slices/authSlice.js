@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux'; // Import useDispatch
 const initialState = {
   isAuth: false,
   currentUser: null,
-  currentCompany:'',
+  currentCompany:1,
   someVar: 'blah blah blah',
   authToken: '',
   codeFromServer:'none',

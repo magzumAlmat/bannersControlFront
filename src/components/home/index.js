@@ -21,12 +21,19 @@ export default function Home() {
     console.log('bannersArray=',bannersArray)
     const [bannersState, setBannersState] = useState([])
     console.log('Current company from home=', CurrentCompany)
-
+    
 
     useEffect(()=>{
     
+    
     dispatch(getUserInfo);
-    dispatch(getBannerByCompanyIdAction(CurrentCompany))
+    
+    if (CurrentCompany!=1){
+        dispatch(getBannerByCompanyIdAction(CurrentCompany))
+    }
+
+    // dispatch(getBannerByCompanyIdAction(CurrentCompany))
+    
     
     setBannersState(banners)
     
@@ -35,7 +42,7 @@ export default function Home() {
     return(
         <div className='container'>
             
-            {banners ? (
+            {banners && CompanyId !=1 ? (
                 <div className="container-fluid">
                     <h1>Баннеры</h1>
                 {bannersArray.map((item, index)=>(

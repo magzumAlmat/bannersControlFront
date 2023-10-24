@@ -26,9 +26,9 @@ export default function Home() {
             {banners ? (
                 <div className="container-fluid">
                     <h1>Баннеры</h1>
-                {bannersArray.map((item)=>(
+                {bannersArray.map((item, index)=>(
                 
-                    <div className="container mt-5 border mb-5">
+                    <div key={index} className="container mt-5 border mb-5">
                         
                         <div className="row p-3">
                             <div className="col-sm-2">

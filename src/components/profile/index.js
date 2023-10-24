@@ -18,7 +18,7 @@ import React, { useState ,useEffect} from 'react';
 import { useSelector,useDispatch } from 'react-redux'
 
 import Header from '../header';
-import { authorize } from '@/store/slices/authSlice';
+import { authorize, getUserInfo } from '@/store/slices/authSlice';
 import jwtDecode from 'jwt-decode'
 import Link from "next/link";
 import {Button, Typography} from "@mui/material";
@@ -30,29 +30,28 @@ export default function ProfileComponent(user) {
     const CurrentUser = useSelector((state) => state.auth.currentUser);
     const isAuth = useSelector((state) => state.auth.isAuth);
     const TOKEN = useSelector((state) => state.auth.authToken);
-
-    console.log('CURRENT USER FROM PROFILE isAuth=', isAuth)
-    console.log('CURRENT USER FROM PROFILE TOKEN=', TOKEN)
-    console.log('CURRENT USER FROM PROFILE CurrentUser=', CurrentUser)
-
+    console.log('1 CURRENT USER=', CurrentUser)
+    console.log('1.1 TOKEN=', TOKEN)
+    let arrayOfCurrentUser = []
+    arrayOfCurrentUser.push(CurrentUser)
+    console.log('1.2 Array of Current User', arrayOfCurrentUser)
     const [tokenState, setTokenState] = useState(TOKEN)
 
     const token = localStorage.getItem('token')
 
-    console.log('Initialize tokenState=', tokenState)
-
-
+    console.log('2 token', token)
     useEffect(() => {
+        console.log('3 UseEffect запустился')
         if (user != null) {
             console.log('user is null')
         }
 
 
-        console.log('1User from parent', user)
+        
         if (token) {
             let decodedToken = jwtDecode(token)
             setTokenState(CurrentUser)
-
+            dispatch(getUserInfo);
             // localStorage.setItem('token',tokenState)
             // dispatch(authorize({tokenState}))
 
@@ -100,10 +99,10 @@ export default function ProfileComponent(user) {
             <Col className="" sm="4" xs="6"></Col>
             <Col sm="4" xs="6">
                 <Col>
-                    <div><p>Email: {tokenState && tokenState.email}</p></div>
-                    <div><p>Имя: {tokenState && tokenState.name}</p></div>
-                    <div><p>Фамилия: {tokenState && tokenState.lastname}</p></div>
-                    <div><p>Телефон: {tokenState && tokenState.phone}</p></div>
+                    <div><p>Email: {CurrentUser && CurrentUser.email}</p></div>
+                    <div><p>Имя: {CurrentUser && CurrentUser.name}</p></div>
+                    <div><p>Фамилия: {CurrentUser && CurrentUser.lastname}</p></div>
+                    <div><p>Телефон: {CurrentUser && CurrentUser.phone}</p></div>
                 </Col>
                 <Link href='/addprofiledatapage'>
                     <button className='btn btn-primary'>

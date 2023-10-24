@@ -1,6 +1,7 @@
 'use client' 
 import UserLogin from "@/components/login"
 import Header from "@/components/header"
+import Home from "@/components/home"
 import Profile from "@/components/profile"
 import jwtDecode from 'jwt-decode'
 import { useSelector,useDispatch } from 'react-redux'
@@ -31,7 +32,7 @@ export default function Layout(user) {
         <>
            <Header loggedIn={true}/>
            <br />
-            <Profile />
+            <Home/>
         </>
     )
 }

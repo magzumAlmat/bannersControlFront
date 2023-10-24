@@ -22,11 +22,13 @@ import { authorize, getUserInfo } from '@/store/slices/authSlice';
 import jwtDecode from 'jwt-decode'
 import Link from "next/link";
 import {Button, Typography} from "@mui/material";
+import { logout } from '@/store/slices/authSlice';
+import { useRouter } from 'next/navigation';
 
 
 export default function ProfileComponent(user) {
     const dispatch = useDispatch()
-
+    const router=useRouter()
     const CurrentUser = useSelector((state) => state.auth.currentUser);
     const isAuth = useSelector((state) => state.auth.isAuth);
     const TOKEN = useSelector((state) => state.auth.authToken);
@@ -60,6 +62,13 @@ export default function ProfileComponent(user) {
         }
     }, [TOKEN])
 
+    const handleClick = () => {
+        
+        dispatch(logout())
+        router.push('/')
+        
+
+    }
 
     return (
 
@@ -109,6 +118,7 @@ export default function ProfileComponent(user) {
                      Изменить
                     </button>
                 </Link>
+                <button className='ms-4 btn btn-primary' onClick={()=> {handleClick()}}>logout</button>
 
 
 

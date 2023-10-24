@@ -1,24 +1,36 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch,useSelector } from "react-redux";
-import { getBannerByCompanyIdAction } from "@/store/slices/authSlice";
+import { getBannerByCompanyIdAction, getUserInfo } from "@/store/slices/authSlice";
 import jwtDecode from "jwt-decode";
+import Link from "next/link";
+import { addCompanyAction } from "@/store/slices/authSlice";
 export default function Home() {
+
     const host ='http://localhost:8000'
     const token=localStorage.getItem('token')
+    const TOKEN = useSelector((state) => state.auth.authToken);
+    const CurrentCompany = useSelector((state) => state.auth.currentCompany);
     let decodedToken=jwtDecode(token)
     console.log('decodec token from home',decodedToken)
+    const CompanyId=decodedToken.companyId
     const dispatch=useDispatch()
     const banners= useSelector((state) => state.auth.bannersById);
     console.log('banners==',banners)
     const bannersArray=[]
     bannersArray.push(...banners)
     console.log('bannersArray=',bannersArray)
+    const [bannersState, setBannersState] = useState([])
+    console.log('Current company from home=', CurrentCompany)
+
 
     useEffect(()=>{
     
-    dispatch(getBannerByCompanyIdAction(decodedToken.companyId))
+    dispatch(getUserInfo);
+    dispatch(getBannerByCompanyIdAction(CurrentCompany))
     
-    },[dispatch])
+    setBannersState(banners)
+    
+    },[CurrentCompany])
 
     return(
         <div className='container'>
@@ -27,7 +39,7 @@ export default function Home() {
                 <div className="container-fluid">
                     <h1>Баннеры</h1>
                 {bannersArray.map((item, index)=>(
-                
+                    
                     <div key={index} className="container mt-5 border mb-5">
                         
                         <div className="row p-3">
@@ -60,8 +72,28 @@ export default function Home() {
             ) : (
                 <>
                 <h1>
-                    nothing
+                    Заполните компанию
+                    <Link href="/addcompany">
+                    <button className="btn btn-primary">
+                        заполнить компанию
+                    </button>
+                    </Link>
+
                 </h1>
+                
+                <h1>
+                    Создайте баннер
+                <Link href="/addbanner">
+                <button className="btn btn-primary">
+                    создать баннер
+                </button>
+                </Link>
+
+                </h1>
+                
+                
+                
+                
                 </>
             )}
             

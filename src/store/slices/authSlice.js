@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'; // Import useDispatch
 const initialState = {
   isAuth: false,
   currentUser: null,
+  currentCompany:'',
   someVar: 'blah blah blah',
   authToken: '',
   codeFromServer:'none',
@@ -86,6 +87,7 @@ export const authSlice = createSlice({
       console.log('1.3 setCurrentUser',action.payload)
       state.currentUser=action.payload
       console.log('1.4 CURRENT  USER CHANGED IN setCurrentUser',state.currentUser)
+      state.currentCompany = action.payload.companyId;
 
     },
 
@@ -171,12 +173,17 @@ export const authSlice = createSlice({
     // };
     // state.isAuth = true;
 },
+      addCompanyReducer: (state, action) => {
+        // state.currentCompany = action.payload;
+        console.log('AddCompanyReducer Started', action.payload)
+      },
 
 
      
 
 
       logout: (state) => { // Clear user-related state when logging out
+          console.log('Logut start')
           localStorage.removeItem('token'); // Remove the token from localStorage
           axios.defaults.headers.common['Authorization'] = ''; // Remove Authorization header
           state.currentUser = null;
@@ -186,7 +193,7 @@ export const authSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer,setCurrentUser,getBannerByCompanyIdReducer} = authSlice.actions;
+export const { authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer,setCurrentUser,getBannerByCompanyIdReducer, addCompanyReducer} = authSlice.actions;
 
 // Use useEffect for token initialization
 // export const useTokenInitialization = () => {
@@ -228,6 +235,7 @@ export const { authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer,s
 // };
 export const  getBannerByCompanyIdAction= (companyId) => async(dispatch) => {
   console.log('1 getBannerByCompanyId started')
+  console.log('1.1 COMPANYID======', companyId)
   const response = await axios.get(
     `${END_POINT}/api/banner/getbycompanyid/${companyId}`,{
       headers: {
@@ -452,7 +460,7 @@ export const addCompanyAction=(name,description,bin,address,contactEmail,contact
   
       
       console.log('Data uploaded successfully:', response.data);
-      
+      dispatch(addCompanyReducer(response.data))
       // Handle success, e.g., dispatch an action to update state
     } catch (error) {
       // Handle errors, e.g., by returning an error object or dispatching an error action

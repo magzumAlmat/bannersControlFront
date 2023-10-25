@@ -110,13 +110,13 @@ export default function ReviseDashboard(bannderId) {
          if( item.id == bannderId.bannerId      ){
           return(
           <>
-           <div key={index} >
+           <div key={item.id} >
                 <div >
                   <div className="col-sm-2">
                     <img
                       style={{ width: "100%" }}
                       src={`${host}/${item.imageUrl}`}
-                      alt="alt banner"
+                      alt="alt bannder"
                     />
                   </div>
                   <div className="col-sm-10">

@@ -122,7 +122,7 @@ console.log('allrevises',allRevises)
 
       <div className="container-fluid">
         <h1>Баннеры</h1>
-        {currentItems.map((item, index) => {
+        {currentItems.map((item) => {
           const matchingCompany = companiesArray.find(
             (company) => item.CompanyId == company.id // Use '==' instead of '==='
           );
@@ -139,13 +139,13 @@ console.log('allrevises',allRevises)
 
 
             return (
-              <div key={index} className="container mt-5 border mb-5">
+              <div key={item.id} className="container mt-5 border mb-5">
                 <div className="row p-3">
                   <div className="col-sm-2">
                     <img
                       style={{ width: "100%" }}
                       src={`${host}/${item.imageUrl}`}
-                      alt="alt banner"
+                      alt="alt bannвer"
                     />
                   </div>
                   <div className="col-sm-5">

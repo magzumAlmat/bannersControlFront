@@ -116,12 +116,12 @@ export default function Header(user) {
 {user.loggedIn=='inspector'  &&
 
 <Navbar color="light" light expand="md">
-<NavbarBrand href="/layout">E-ZHARNAMA</NavbarBrand>
+<NavbarBrand href="/inspector">E-ZHARNAMA</NavbarBrand>
     <Container>
      
       <Nav className="ml-auto" navbar>
         <NavItem>
-              <Link href="/layout">Главная</Link>
+              <Link href="/inspector">Главная</Link>
           </NavItem>
           <NavItem>
               <Link href="/addcompany">Все компании</Link>

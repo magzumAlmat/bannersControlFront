@@ -27,11 +27,7 @@ export default function InspectorDashboard() {
 
   const [bannersState, setBannersState] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-
-  // Calculate the index range for the current page
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = bannersArray.slice(indexOfFirstItem, indexOfLastItem);
+  const [selectedCompany, setSelectedCompany] = useState(""); // New state for selected company
 
   useEffect(() => {
     dispatch(getAllCompanies());
@@ -45,17 +41,44 @@ export default function InspectorDashboard() {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-  };
+  }
+
+  const handleCompanyChange = (event) => {
+    setSelectedCompany(event.target.value);
+  }
+
+  // Filter banners based on the selected company
+  const filteredBanners = selectedCompany
+    ? bannersArray.filter((banner) => banner.CompanyId == selectedCompany) // Use '==' instead of '==='
+    : bannersArray;
+
+  // Calculate the index range for the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredBanners.slice(indexOfFirstItem, indexOfLastItem); // Use 'filteredBanners' here
 
   return (
     <div className="container">
       <h1></h1>
+      
+      {/* Dropdown select for filtering companies */}
+      <div>
+        <label>Select a Company:</label>
+        <select value={selectedCompany} onChange={handleCompanyChange}>
+          <option value="">All Companies</option>
+          {companiesArray.map((company) => (
+            <option key={company.id} value={company.id}>
+              {company.name}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <div className="container-fluid">
         <h1>Баннеры</h1>
         {currentItems.map((item, index) => {
           const matchingCompany = companiesArray.find(
-            (company) => item.CompanyId === company.id
+            (company) => item.CompanyId == company.id // Use '==' instead of '==='
           );
 
           if (matchingCompany) {
@@ -93,10 +116,7 @@ export default function InspectorDashboard() {
       <ul className="pagination">
         {pageNumbers.map((number) => (
           <li key={number} className="page-item">
-            <button
-              className="page-link"
-              onClick={() => handlePageChange(number)}
-            >
+            <button className="page-link" onClick={() => handlePageChange(number)}>
               {number}
             </button>
           </li>

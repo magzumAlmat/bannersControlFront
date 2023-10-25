@@ -1,6 +1,7 @@
 {
   "/page": "app/page.js",
-  "/inspector/page": "app/inspector/page.js",
-  "/layout/page": "app/layout/page.js",
-  "/customerprofile/page": "app/customerprofile/page.js"
+  "/addcompany/page": "app/addcompany/page.js",
+  "/addbanner/page": "app/addbanner/page.js",
+  "/customerprofile/page": "app/customerprofile/page.js",
+  "/inspector/page": "app/inspector/page.js"
 }

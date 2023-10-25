@@ -59,7 +59,7 @@ export default function Header(user) {
     <>
     {user.loggedIn==undefined  &&
      <Navbar color="light" light expand="md">
-     <NavbarBrand href="/">E-ZHARNAMA</NavbarBrand>
+     <NavbarBrand href="/layout">E-ZHARNAMA</NavbarBrand>
          <Container>
           
            <Nav className="ml-auto" navbar>
@@ -86,7 +86,7 @@ export default function Header(user) {
 {user.loggedIn===true  &&
 
       <Navbar color="light" light expand="md">
-      <NavbarBrand href="/">E-ZHARNAMA</NavbarBrand>
+      <NavbarBrand href="/layout">E-ZHARNAMA</NavbarBrand>
           <Container>
            
             <Nav className="ml-auto" navbar>
@@ -110,6 +110,36 @@ export default function Header(user) {
 
         </Container>
         </Navbar>
+}
+
+
+{user.loggedIn=='inspector'  &&
+
+<Navbar color="light" light expand="md">
+<NavbarBrand href="/layout">E-ZHARNAMA</NavbarBrand>
+    <Container>
+     
+      <Nav className="ml-auto" navbar>
+        <NavItem>
+              <Link href="/layout">Главная</Link>
+          </NavItem>
+          <NavItem>
+              <Link href="/addcompany">Все компании</Link>
+          </NavItem>
+          <NavItem>
+              <Link href="/addbanner">Ченибудь еще</Link>
+          </NavItem>
+      </Nav>
+    </Container>
+  <Container className='d-flex justify-content-end'>
+    <Nav navbar>
+      <Link href="/customerprofile">
+        <Image src={imageicon} alt="иконка профиля"/>
+      </Link>
+    </Nav>
+
+  </Container>
+  </Navbar>
 }
     </>
 

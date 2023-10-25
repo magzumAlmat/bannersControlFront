@@ -18,26 +18,39 @@ export default function Home() {
     console.log('banners==',banners)
     const bannersArray=[]
     bannersArray.push(...banners)
-    console.log('bannersArray=',bannersArray)
+    console.log('1 bannersArray=',bannersArray)
     const [bannersState, setBannersState] = useState([])
-    console.log('Current company from home=', CurrentCompany)
+    console.log('2 Current company from home=', CurrentCompany)
     
 
-    useEffect(()=>{
+    // useEffect(()=>{
     
     
-    dispatch(getUserInfo);
+    // dispatch(getUserInfo);
     
-    if (CurrentCompany!=1){
-        dispatch(getBannerByCompanyIdAction(CurrentCompany))
-    }
+    // if (CurrentCompany!=null){
+    //     dispatch(getBannerByCompanyIdAction(CurrentCompany))
+    // }
 
-    // dispatch(getBannerByCompanyIdAction(CurrentCompany))
+    // // dispatch(getBannerByCompanyIdAction(CurrentCompany))
     
     
-    setBannersState(banners)
+    // setBannersState(banners)
     
-    },[CurrentCompany])
+    // },[CurrentCompany,banners])
+    useEffect(() => {
+        dispatch(getUserInfo);
+    
+        if (CurrentCompany != null) {
+            dispatch(getBannerByCompanyIdAction(CurrentCompany));
+        }
+    
+        setBannersState(banners); // Moved to the effect function
+    }, [CurrentCompany]); // Listen to changes in CurrentCompany and banners
+
+
+
+    console.log(' 3 BANNERS ARRAY=',bannersArray)
 
     return(
         <div className='container'>

@@ -33,7 +33,7 @@ export default function AddCompanyPage() {
         <>
               <Header loggedIn={true}/>
               <br />
-            <AddCompany/>
+               <AddCompany/>
             
      
         

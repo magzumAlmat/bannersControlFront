@@ -6,7 +6,7 @@ import {Button, TextField} from '@mui/material';
 import {useState, useEffect} from 'react';
 import {useRouter} from 'next/navigation';
 import {useDispatch, useSelector} from 'react-redux';
-import {sendMail} from '@/store/slices/authSlice';
+import {loginInspectorAction, sendMail} from '@/store/slices/authSlice';
 import {sendCodeToEmailAction, verifyCodeAction} from '@/store/slices/authSlice';
 import {
     Form,
@@ -16,7 +16,7 @@ import {
     Input,
     FormGroup
 } from 'reactstrap';
-
+import { loginAction } from '@/store/slices/authSlice';
 export default function Login() {
     const dispatch = useDispatch()
     const [isWaiting, setIsWaiting] = useState(false);
@@ -28,6 +28,7 @@ export default function Login() {
     const [code, setCode] = useState('');
     const [step, setStep] = useState(1)
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const someVar = useSelector((state) => state.auth.someVar);
     const token = useSelector((state) => state.auth.authToken);
@@ -93,6 +94,44 @@ export default function Login() {
     };
 
 
+    const loginWithEmailAndPassword=async()=>{
+        await dispatch(loginAction(email,password))        
+        router.push('/layout');
+       
+    }
+
+    const loginInspectorWithEmailAndPassword=async()=>{
+        await dispatch(loginInspectorAction(email,password))        
+        router.push('/inspector');
+       
+    }
+
+    const handleClickEnterWithLoginPassword=async()=>{
+        if (validateEmail(email)) {
+            setStep(3);
+            
+
+          
+
+        } else {
+            alert('Пожалуйста, введите действительный адрес электронной почты.');
+        }
+       
+    }
+
+    const handleInspectorEnterWithEmailAndPassword=async()=>{
+        if (validateEmail(email)) {
+            setStep(4);
+            
+
+          
+
+        } else {
+            alert('Пожалуйста, введите действительный адрес электронной почты.');
+        }
+       
+    }
+
     const handleClick = async () => {
 
         if (validateEmail(email)) {
@@ -108,6 +147,10 @@ export default function Login() {
 
     const handleChangeEmail = (event) => {
         setEmail(event.target.value);
+    };
+
+    const handleChangePassword = (event) => {
+        setPassword(event.target.value);
     };
     return (
         <>
@@ -132,6 +175,13 @@ export default function Login() {
                                 />
                                 <br/>
                                 <Button onClick={handleClick} color="primary">Продолжить
+
+                                </Button>
+
+                                <Button onClick={handleClickEnterWithLoginPassword} color="primary">Вход
+
+                                </Button>
+                                <Button onClick={handleInspectorEnterWithEmailAndPassword} color="primary">Вход Инспектор
 
                                 </Button>
                             </Col>
@@ -174,6 +224,90 @@ export default function Login() {
                                         <br/>
                                 <Button  disabled={!isInputEnabled} onClick={handleCodeSubmit} color="primary">
                                       Продолжить
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Form>
+
+                </Col>
+                <Col className="" sm="4"></Col>
+            </Row>
+}
+
+
+{  step === 3 &&
+            <Row>
+                <Col className="" sm="4" xs="6"></Col>
+                <Col sm="4" xs="6">
+                    <Form>
+                        <Row className="card">
+                            <Col>
+                                <Label>
+                                    Введите email и пароль
+                                </Label>
+                                <Input id="outlined-basic" variant="outlined" 
+                                    value={email}
+                                    onChange={handleChangeEmail}
+                                    type="email"
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                    // Паттерн для валидации
+                                    title="Введите действительный адрес электронной почты"
+                                />
+                                 <Input id="outlined-basic" variant="outlined" 
+                                    value={password}
+                                    onChange={handleChangePassword}
+                                    type="email"
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                    // Паттерн для валидации
+                                    title="Введите действительный пароль"
+                                />
+                                <br/>
+                               
+
+                                <Button onClick={loginWithEmailAndPassword} color="primary">Войти
+
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Form>
+
+                </Col>
+                <Col className="" sm="4"></Col>
+            </Row>
+}
+
+
+{  step === 4 &&
+            <Row>
+                <Col className="" sm="4" xs="6"></Col>
+                <Col sm="4" xs="6">
+                    <Form>
+                        <Row className="card">
+                            <Col>
+                                <Label>
+                                    Введите email и пароль
+                                </Label>
+                                <Input id="outlined-basic" variant="outlined" 
+                                    value={email}
+                                    onChange={handleChangeEmail}
+                                    type="email"
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                    // Паттерн для валидации
+                                    title="Введите действительный адрес электронной почты"
+                                />
+                                 <Input id="outlined-basic" variant="outlined" 
+                                    value={password}
+                                    onChange={handleChangePassword}
+                                    type="email"
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                    // Паттерн для валидации
+                                    title="Введите действительный пароль"
+                                />
+                                <br/>
+                               
+
+                                <Button onClick={loginInspectorWithEmailAndPassword} color="primary">Войти
+
                                 </Button>
                             </Col>
                         </Row>

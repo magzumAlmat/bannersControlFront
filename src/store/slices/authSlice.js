@@ -8,11 +8,13 @@ import { useDispatch } from 'react-redux'; // Import useDispatch
 const initialState = {
   isAuth: false,
   currentUser: null,
-  currentCompany:1,
+  currentCompany:null,
   someVar: 'blah blah blah',
   authToken: '',
   codeFromServer:'none',
-  bannersById:''
+  bannersById:'',
+  allBanners:'',
+  allCompanies:''
   
 };
 const token = localStorage.getItem('token');
@@ -76,7 +78,33 @@ export const authSlice = createSlice({
   initialState,
 
   reducers: {
+    loginReducer:(state,action)=>{
+     
+              localStorage.setItem('token', action.payload.token);
+              axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
+              // axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
+              const decoded = jwt_decode(action.payload.token);
+        
+              state.currentUser = {
+                id: decoded.id,
+                email: decoded.email,
+                name: decoded.name,
+                username: decoded.username,
+                password: decoded.password,
+              };
+              state.isAuth = true;
+            },
 
+    getAllCompaniesReducer:(state,action)=>{
+      console.log('1.3 getAllBannersReducerr-',action.payload)
+      state.allCompanies=action.payload
+      
+    },        
+    getAllBannersReducer:(state,action)=>{
+      console.log('1.3 getAllBannersReducerr-',action.payload)
+      state.allBanners=action.payload
+      console.log('1.3 getAllBannersReducer-',state.bannersById)
+    },
     getBannerByCompanyIdReducer:(state,action)=>{
       console.log('1.3 getBannerByCompanyIdReducer-',action.payload)
       state.bannersById=action.payload
@@ -193,7 +221,7 @@ export const authSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer,setCurrentUser,getBannerByCompanyIdReducer, addCompanyReducer} = authSlice.actions;
+export const { authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer,setCurrentUser,getBannerByCompanyIdReducer,getAllBannersReducer, loginReducer,addCompanyReducer,getAllCompaniesReducer} = authSlice.actions;
 
 // Use useEffect for token initialization
 // export const useTokenInitialization = () => {
@@ -233,6 +261,40 @@ export const { authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer,s
 //   console.log('Token не найден');
 //   return null;
 // };
+
+export const  getAllCompanies= () => async(dispatch) => {
+  console.log('1 getAllBanner started')
+  
+  const response = await axios.get(
+    `${END_POINT}/api/auth/getallcompanies`,{
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json', // Set the content type to JSON
+      },
+    }
+  ).then((response) => {
+    console.log('1.2 getAllCompanies response ',response.data)
+    dispatch(getAllCompaniesReducer(response.data));
+  });
+};
+
+export const  getAllBanners= () => async(dispatch) => {
+  console.log('1 getAllBanner started')
+  
+  const response = await axios.get(
+    `${END_POINT}/api/banner/getall`,{
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json', // Set the content type to JSON
+      },
+    }
+  ).then((response) => {
+    console.log('1.2 getBannerByCompanyId response ',response.data)
+    dispatch(getAllBannersReducer(response.data));
+  });
+};
+
+
 export const  getBannerByCompanyIdAction= (companyId) => async(dispatch) => {
   console.log('1 getBannerByCompanyId started')
   console.log('1.1 COMPANYID======', companyId)
@@ -316,6 +378,40 @@ export const createUser = (email, name, password, username) => (dispatch) => {
 };
 
 
+export const loginInspectorAction = (email,password) => async(dispatch) => {
+  // axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
+  console.log('loginAction  start',email,password)
+  // console.log('1 AutheUser запустился ', email, password);
+ await axios.post(`${END_POINT}/api/auth/login`, {
+    email: email,
+    password:password,
+    
+  }).then((res) => {
+    console.log('response from loginAction ',res)
+    dispatch(loginReducer(res.data));
+  });
+};
+
+export const loginAction = (email,password) => async(dispatch) => {
+  // axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
+
+  console.log('loginAction  start',email,password)
+  // console.log('1 AutheUser запустился ', email, password);
+
+
+ await axios.post(`${END_POINT}/api/auth/login`, {
+    email: email,
+    password:password,
+  }).then((res) => {
+    console.log('response from loginAction ',res)
+    dispatch(loginReducer(res.data));
+  });
+};
+
+
+
+
+
 export const sendCodeToEmailAction = (email) => async(dispatch) => {
   // axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
 
@@ -329,6 +425,8 @@ export const sendCodeToEmailAction = (email) => async(dispatch) => {
     dispatch(authorize(res.data));
   });
 };
+
+
 
 
 

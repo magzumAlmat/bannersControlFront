@@ -170,6 +170,7 @@ export default function AddBanner() {
                   placeholder='Введите адрес баннера'
                 />
                 <Input
+                     type="date"
                   label='Created Date' // Added
                   name='createdDate'
                   value={createdDate}
@@ -184,6 +185,7 @@ export default function AddBanner() {
                   placeholder='Введите количество дней аренды'
                 />
                 <Input
+                  type="date"
                   label='Expired Date' // Added
                   name='expiredDate'
                   value={expiredDate}

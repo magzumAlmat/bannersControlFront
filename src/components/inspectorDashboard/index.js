@@ -129,7 +129,15 @@ console.log('allrevises',allRevises)
 
         
           if (matchingCompany) {
-            
+            let date = new Date(item.expiredDate);
+                        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                        let formattedExpiredDate = date.toLocaleDateString('ru-RU', options);
+            let date2 = new Date(item.createdDate);
+                        const options2 = { year: 'numeric', month: 'long', day: 'numeric' };
+                        let formattedCreatedDate = date.toLocaleDateString('ru-RU', options);
+                      
+
+
             return (
               <div key={index} className="container mt-5 border mb-5">
                 <div className="row p-3">
@@ -145,6 +153,9 @@ console.log('allrevises',allRevises)
                     <p>Banner number: {item.bannerNumber}</p>
                     <p>Banner address:{item.banerAddress} </p>
                     <p>Banner unique id:{item.uniqueCode} </p>
+                    <p>Banner createdDate id:{formattedCreatedDate} </p>
+                    <p>Banner expiredDate:{formattedExpiredDate} </p>
+                    
                     <h6>Company name:{matchingCompany.name}</h6>
                     <p>Company address: {matchingCompany.address}</p>
                     <p>Company bin:{matchingCompany.bin} </p>
@@ -160,7 +171,13 @@ console.log('allrevises',allRevises)
                    <h6>Проверка</h6>
                    {Array.isArray(allRevises) && allRevises.length > 0 ? (
                      allRevises.map((item2) => {
+                      
                        if(item.id==item2.BannerId){
+                        let date = new Date(item2.expiredDate);
+                        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                        let formattedDate = date.toLocaleDateString('ru-RU', options);
+
+                      
                          return(<>
                           <div key={item2.id} className="">
                           <img
@@ -170,7 +187,7 @@ console.log('allrevises',allRevises)
                    />
                          <p>Статус: {item2.status}</p>
                          <p>Описание: {item2.description}</p>
-                         <p>Конец аренды: {item2.expiredDate}</p>
+                         <p>Конец аренды: {formattedDate}</p>
                          {/* Display other properties from 'item' here */}
                        </div>
                        </>)

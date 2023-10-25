@@ -1,20 +1,15 @@
 {
   "pages": {
+    "/revise/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/revise/page.js"
+    ],
     "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
-    ],
-    "/inspector/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/inspector/page.js"
-    ],
-    "/layout/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/layout/page.js"
     ],
     "/customerprofile/page": [
       "static/chunks/webpack.js",
@@ -27,30 +22,25 @@
       "static/css/app/page.css",
       "static/chunks/app/page.js"
     ],
-    "/login/page": [
+    "/layout/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/login/page.js"
-    ],
-    "/addcompany/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/addcompany/page.js"
-    ],
-    "/addbanner/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/addbanner/page.js"
+      "static/chunks/app/layout/page.js"
     ],
     "/addprofiledatapage/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/addprofiledatapage/page.js"
     ],
-    "/not-found": [
+    "/addbanner/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/not-found.js"
+      "static/chunks/app/addbanner/page.js"
+    ],
+    "/inspector/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/inspector/page.js"
     ]
   }
 }

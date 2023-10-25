@@ -14,8 +14,8 @@ const initialState = {
   codeFromServer:'none',
   bannersById:'',
   allBanners:'',
-  allCompanies:''
-  
+  allCompanies:'',
+  allRevises:''
 };
 const token = localStorage.getItem('token');
 
@@ -95,6 +95,16 @@ export const authSlice = createSlice({
               state.isAuth = true;
             },
 
+    ReviseReducer:(state,action)=>{
+      console.log('1.3 ReviseReducer',action.payload)
+      state.allRevises=action.payload
+      
+    },    
+    getAllRevisesReducer:(state,action)=>{
+      console.log('1.3 ReviseReducer',action.payload)
+      state.allRevises=action.payload
+      
+    },   
     getAllCompaniesReducer:(state,action)=>{
       console.log('1.3 getAllBannersReducerr-',action.payload)
       state.allCompanies=action.payload
@@ -221,7 +231,7 @@ export const authSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer,setCurrentUser,getBannerByCompanyIdReducer,getAllBannersReducer, loginReducer,addCompanyReducer,getAllCompaniesReducer} = authSlice.actions;
+export const { getAllRevisesReducer,ReviseReducer,authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer,setCurrentUser,getBannerByCompanyIdReducer,getAllBannersReducer, loginReducer,addCompanyReducer,getAllCompaniesReducer} = authSlice.actions;
 
 // Use useEffect for token initialization
 // export const useTokenInitialization = () => {
@@ -261,6 +271,24 @@ export const { authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer,s
 //   console.log('Token не найден');
 //   return null;
 // };
+
+
+
+export const  getAllRevises= () => async(dispatch) => {
+  console.log('1 getAllRevises started')
+  
+  const response = await axios.get(
+    `${END_POINT}/api/revise/getallrevises`,{
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json', // Set the content type to JSON
+      },
+    }
+  ).then((response) => {
+    console.log('1.2 getAllCompanies response ',response.data)
+    dispatch(getAllRevisesReducer(response.data));
+  });
+};
 
 export const  getAllCompanies= () => async(dispatch) => {
   console.log('1 getAllBanner started')
@@ -608,6 +636,34 @@ export const addBannerAction=(formData)=>async(dispatch)=>{
 
     }
 
+
+
+    export const addReviseForBannerAction = (formData, bannerId) => async (dispatch) => {
+      try {
+        const token = localStorage.getItem('token');
+    
+        if (!token) {
+          console.error('Token not available');
+          return;
+        }
+    
+        const response = await axios.post(`${END_POINT}/api/revise/${bannerId}`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data', // Set the content type to 'multipart/form-data'
+          },
+        });
+    
+        console.log('Data uploaded successfully:', response.data);
+    
+        // Dispatch an action to update state or handle the response as needed
+        dispatch(ReviseReducer(response.data));
+      } catch (error) {
+        console.error('Error uploading data:', error);
+        // Handle errors, e.g., by returning an error object or dispatching an error action
+      }
+    };
+    
 
     
 export const logoutAction = () => (dispatch) => {

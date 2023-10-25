@@ -5,22 +5,28 @@ import {
   getAllCompanies,
   getBannerByCompanyIdAction,
   getUserInfo,
+  getAllRevises
 } from "@/store/slices/authSlice";
 import jwtDecode from "jwt-decode";
 import Link from "next/link";
 import { addCompanyAction } from "@/store/slices/authSlice";
-
+import ReviseDashboard from "../reviseDashboard";
+import { Button } from "reactstrap";
+import { useRouter } from "next/navigation";
 export default function InspectorDashboard() {
+    const router=useRouter()
   const host = "http://localhost:8000";
   const token = localStorage.getItem("token");
   const TOKEN = useSelector((state) => state.auth.authToken);
   const CurrentCompany = useSelector((state) => state.auth.currentCompany);
+  
   let decodedToken = jwtDecode(token);
   console.log("1 decoded token from home", decodedToken);
   const CompanyId = decodedToken.companyId;
   const dispatch = useDispatch();
   const banners = useSelector((state) => state.auth.allBanners);
   const companies = useSelector((state) => state.auth.allCompanies);
+  const allRevises = useSelector((state) => state.auth.allRevises);
   const bannersArray = [...banners];
   const companiesArray = [...companies];
   const itemsPerPage = 5;
@@ -33,6 +39,8 @@ export default function InspectorDashboard() {
   useEffect(() => {
     dispatch(getAllCompanies());
     dispatch(getAllBanners());
+    dispatch(getAllRevises())
+
   }, []);
 
   const pageNumbers = [];
@@ -52,6 +60,17 @@ export default function InspectorDashboard() {
     setSearchQuery(event.target.value);
   }
 
+
+  const redirectToReviseDashboard=(bannderId)=>{
+    console.log('BANNER ID afterClick=',bannderId)
+    
+    router.push(`/revise?bannderId=${bannderId}`)
+    // router.push({
+    //     pathname: '/revise',
+    //     query: { id: bannderId },
+    //   })
+  }
+
   // Filter banners based on the selected company
   const filteredBanners = selectedCompany
     ? bannersArray.filter((banner) => banner.CompanyId == selectedCompany) // Use '==' instead of '==='
@@ -67,8 +86,14 @@ export default function InspectorDashboard() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredBannersWithSearch.slice(indexOfFirstItem, indexOfLastItem); // Use 'filteredBannersWithSearch' here
 
+  // allRevises.map((item)=>{
+  //   console.log('revise=',item)
+  // })
+console.log('allrevises',allRevises)
+
   return (
     <div className="container">
+      
       <h1></h1>
       
       {/* Dropdown select for filtering companies */}
@@ -102,7 +127,9 @@ export default function InspectorDashboard() {
             (company) => item.CompanyId == company.id // Use '==' instead of '==='
           );
 
+        
           if (matchingCompany) {
+            
             return (
               <div key={index} className="container mt-5 border mb-5">
                 <div className="row p-3">
@@ -113,25 +140,73 @@ export default function InspectorDashboard() {
                       alt="alt banner"
                     />
                   </div>
-                  <div className="col-sm-10">
+                  <div className="col-sm-5">
                     <h6>Banner title:{item.title}</h6>
                     <p>Banner number: {item.bannerNumber}</p>
                     <p>Banner address:{item.banerAddress} </p>
                     <p>Banner unique id:{item.uniqueCode} </p>
-
                     <h6>Company name:{matchingCompany.name}</h6>
                     <p>Company address: {matchingCompany.address}</p>
                     <p>Company bin:{matchingCompany.bin} </p>
                     <p>Company contactEmail:{matchingCompany.contactEmail} </p>
                     <p>Company description:{matchingCompany.description} </p>
+                   
+              
                   </div>
+                  <div className="col-sm-5">
+
+                  
+                   
+                   <h6>Проверка</h6>
+                   {Array.isArray(allRevises) && allRevises.length > 0 ? (
+                     allRevises.map((item2) => {
+                       if(item.id==item2.BannerId){
+                         return(<>
+                          <div key={item2.id} className="">
+                          <img
+                     style={{ width: "100%" }}
+                     src={`${host}/${item2.image}`}
+                     alt="Banner"
+                   />
+                         <p>Статус: {item2.status}</p>
+                         <p>Описание: {item2.description}</p>
+                         <p>Конец аренды: {item2.expiredDate}</p>
+                         {/* Display other properties from 'item' here */}
+                       </div>
+                       </>)
+                       }
+                      
+                 })
+                   ) : (
+                     <p>No revises found.</p>
+                   )}
+
+                
+                
+
+                    
+                   {/* <p>Описание проверки: {allRevises.description}</p>
+                   <p>Статус проверки: {allRevises.status}</p> */}
+                  </div>
+              
+
                 </div>
+                <button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => redirectToReviseDashboard(item.id)} // Pass a reference, not an invocation
+                >
+                  Создать проверку
+                </button>
               </div>
+
             );
           } else {
             return null;
           }
         })}
+
+
       </div>
 
       <ul className="pagination">

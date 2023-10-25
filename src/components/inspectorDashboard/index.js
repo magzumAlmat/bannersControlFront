@@ -28,6 +28,7 @@ export default function InspectorDashboard() {
   const [bannersState, setBannersState] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCompany, setSelectedCompany] = useState(""); // New state for selected company
+  const [searchQuery, setSearchQuery] = useState(""); // New state for search query
 
   useEffect(() => {
     dispatch(getAllCompanies());
@@ -47,15 +48,24 @@ export default function InspectorDashboard() {
     setSelectedCompany(event.target.value);
   }
 
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  }
+
   // Filter banners based on the selected company
   const filteredBanners = selectedCompany
     ? bannersArray.filter((banner) => banner.CompanyId == selectedCompany) // Use '==' instead of '==='
     : bannersArray;
 
+  // Filter banners based on the search query
+  const filteredBannersWithSearch = filteredBanners.filter((banner) =>
+    banner.uniqueCode.includes(searchQuery)
+  );
+
   // Calculate the index range for the current page
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredBanners.slice(indexOfFirstItem, indexOfLastItem); // Use 'filteredBanners' here
+  const currentItems = filteredBannersWithSearch.slice(indexOfFirstItem, indexOfLastItem); // Use 'filteredBannersWithSearch' here
 
   return (
     <div className="container">
@@ -72,6 +82,17 @@ export default function InspectorDashboard() {
             </option>
           ))}
         </select>
+      </div>
+
+      {/* Input field for searching by uniqueCode */}
+      <br />
+      <div>
+        <label>Search by uniqueCode:</label>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
       </div>
 
       <div className="container-fluid">

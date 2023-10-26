@@ -44,11 +44,12 @@ export default function ProfileComponent(user) {
     let thisCompany = []
     const allCompany = []
     allCompany.push(...allCompanies)
-    
     console.log('2 token', token)
+
     allCompany.map(item => {
-        if (item.id == CurrentUser.companyId) {
+        if (CurrentUser.companyId != null && item.id == CurrentUser.companyId) {
             thisCompany = item;
+            return
         }
     })
     console.log('thi company', thisCompany)
@@ -155,8 +156,8 @@ export default function ProfileComponent(user) {
         </div>
         
     
-        
-        <div className='d-flex justify-content-center mt-5'>
+    
+        <div className='d-flex justify-content-center mt-5 mb-5'>
             <button onClick={() => {handleClick()}} className='btn btn-primary'>logout</button>
         </div>
     </div>

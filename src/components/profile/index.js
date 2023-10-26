@@ -18,7 +18,7 @@ import React, { useState ,useEffect} from 'react';
 import { useSelector,useDispatch } from 'react-redux'
 
 import Header from '../header';
-import { authorize, getUserInfo } from '@/store/slices/authSlice';
+import { authorize, getAllCompanies, getUserInfo } from '@/store/slices/authSlice';
 import jwtDecode from 'jwt-decode'
 import Link from "next/link";
 import {Button, Typography} from "@mui/material";
@@ -32,7 +32,7 @@ export default function ProfileComponent(user) {
     const CurrentUser = useSelector((state) => state.auth.currentUser);
     const isAuth = useSelector((state) => state.auth.isAuth);
     const TOKEN = useSelector((state) => state.auth.authToken);
-    const currentCompany = useSelector((state) => state.auth.currentCompany);
+    const allCompanies = useSelector((state) => state.auth.allCompanies);
     console.log('1 CURRENT USER=', CurrentUser)
     console.log('1.1 TOKEN=', TOKEN)
     let arrayOfCurrentUser = []
@@ -41,8 +41,19 @@ export default function ProfileComponent(user) {
     const [tokenState, setTokenState] = useState(TOKEN)
 
     const token = localStorage.getItem('token')
-
+    let thisCompany = []
+    const allCompany = []
+    allCompany.push(...allCompanies)
+    
     console.log('2 token', token)
+    allCompany.map(item => {
+        if (item.id == CurrentUser.companyId) {
+            thisCompany = item;
+        }
+    })
+    console.log('thi company', thisCompany)
+    
+
     useEffect(() => {
         console.log('3 UseEffect запустился')
         if (user != null) {
@@ -55,6 +66,8 @@ export default function ProfileComponent(user) {
             let decodedToken = jwtDecode(token)
             setTokenState(CurrentUser)
             dispatch(getUserInfo);
+            dispatch(getAllCompanies());
+            
             // localStorage.setItem('token',tokenState)
             // dispatch(authorize({tokenState}))
 
@@ -67,8 +80,6 @@ export default function ProfileComponent(user) {
         
         dispatch(logout())
         router.push('/')
-        
-
     }
 
     return (
@@ -122,20 +133,19 @@ export default function ProfileComponent(user) {
                 </Col>
             </Row>
         </div>
-
-        <div className='card p-3 mt-5'>
+            <div className='card p-3 mt-5'>
             <Row>
                 <Col>
                     <Col>
                         <h3></h3>
-                        <div><p>Название компании: {currentCompany && currentCompany.name}</p></div>
-                        <div><p>БИН компании: {currentCompany && currentCompany.bin}</p></div>
-                        <div><p>Описание компании: {currentCompany && currentCompany.description}</p></div>
-                        <div><p>Адрес компании: {currentCompany && currentCompany.address}</p></div>
-                        <div><p>Телефон компании: {currentCompany && currentCompany.contactPhone}</p></div>
-                        <div><p>Email компании: {currentCompany && currentCompany.contactEmail}</p></div>
+                        <div><p>Название компании: {thisCompany && thisCompany.name}</p></div>
+                        <div><p>БИН компании: {thisCompany && thisCompany.bin}</p></div>
+                        <div><p>Описание компании: {thisCompany && thisCompany.description}</p></div>
+                        <div><p>Адрес компании: {thisCompany && thisCompany.address}</p></div>
+                        <div><p>Телефон компании: {thisCompany && thisCompany.contactPhone}</p></div>
+                        <div><p>Email компании: {thisCompany && thisCompany.contactEmail}</p></div>
                     </Col>
-                    <Link href='/addprofiledatapage'>
+                    <Link href='/addcompany'>
                         <button className='btn btn-primary'>
                             Изменить
                         </button>
@@ -143,6 +153,9 @@ export default function ProfileComponent(user) {
                 </Col>
             </Row>
         </div>
+        
+    
+        
         <div className='d-flex justify-content-center mt-5'>
             <button onClick={() => {handleClick()}} className='btn btn-primary'>logout</button>
         </div>

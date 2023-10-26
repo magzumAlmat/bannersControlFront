@@ -123,12 +123,12 @@ export default function Header(user) {
         <NavItem>
               <Link href="/inspector">Главная</Link>
           </NavItem>
-          <NavItem>
+          {/* <NavItem>
               <Link href="/addcompany">Все компании</Link>
           </NavItem>
           <NavItem>
               <Link href="/addbanner">Ченибудь еще</Link>
-          </NavItem>
+          </NavItem> */}
       </Nav>
     </Container>
   <Container className='d-flex justify-content-end'>

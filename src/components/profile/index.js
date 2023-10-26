@@ -32,6 +32,7 @@ export default function ProfileComponent(user) {
     const CurrentUser = useSelector((state) => state.auth.currentUser);
     const isAuth = useSelector((state) => state.auth.isAuth);
     const TOKEN = useSelector((state) => state.auth.authToken);
+    const currentCompany = useSelector((state) => state.auth.currentCompany);
     console.log('1 CURRENT USER=', CurrentUser)
     console.log('1.1 TOKEN=', TOKEN)
     let arrayOfCurrentUser = []
@@ -104,29 +105,47 @@ export default function ProfileComponent(user) {
     //   <h1>{CurrentUser}</h1> */
     // }
     <div className='flexColumn'>
-        <Row>
-            <Col className="" sm="4" xs="6"></Col>
-            <Col sm="4" xs="6">
+        <div className='card p-3'>
+            <Row>
                 <Col>
-                    <div><p>Email: {CurrentUser && CurrentUser.email}</p></div>
-                    <div><p>Имя: {CurrentUser && CurrentUser.name}</p></div>
-                    <div><p>Фамилия: {CurrentUser && CurrentUser.lastname}</p></div>
-                    <div><p>Телефон: {CurrentUser && CurrentUser.phone}</p></div>
+                    <Col>
+                        <div><p>Email: {CurrentUser && CurrentUser.email}</p></div>
+                        <div><p>Имя: {CurrentUser && CurrentUser.name}</p></div>
+                        <div><p>Фамилия: {CurrentUser && CurrentUser.lastname}</p></div>
+                        <div><p>Телефон: {CurrentUser && CurrentUser.phone}</p></div>
+                    </Col>
+                    <Link href='/addprofiledatapage'>
+                        <button className='btn btn-primary'>
+                            Изменить
+                        </button>
+                    </Link>
                 </Col>
-                <Link href='/addprofiledatapage'>
-                    <button className='btn btn-primary'>
-                     Изменить
-                    </button>
-                </Link>
-                <button className='ms-4 btn btn-primary' onClick={()=> {handleClick()}}>logout</button>
+            </Row>
+        </div>
 
-
-
-
-            </Col>
-            <Col className="" sm="4">
-            </Col>
-        </Row>
+        <div className='card p-3 mt-5'>
+            <Row>
+                <Col>
+                    <Col>
+                        <h3></h3>
+                        <div><p>Название компании: {currentCompany && currentCompany.name}</p></div>
+                        <div><p>БИН компании: {currentCompany && currentCompany.bin}</p></div>
+                        <div><p>Описание компании: {currentCompany && currentCompany.description}</p></div>
+                        <div><p>Адрес компании: {currentCompany && currentCompany.address}</p></div>
+                        <div><p>Телефон компании: {currentCompany && currentCompany.contactPhone}</p></div>
+                        <div><p>Email компании: {currentCompany && currentCompany.contactEmail}</p></div>
+                    </Col>
+                    <Link href='/addprofiledatapage'>
+                        <button className='btn btn-primary'>
+                            Изменить
+                        </button>
+                    </Link>
+                </Col>
+            </Row>
+        </div>
+        <div className='d-flex justify-content-center mt-5'>
+            <button onClick={() => {handleClick()}} className='btn btn-primary'>logout</button>
+        </div>
     </div>
 
 );

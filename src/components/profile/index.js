@@ -39,48 +39,63 @@ export default function ProfileComponent(user) {
     arrayOfCurrentUser.push(CurrentUser)
     console.log('1.2 Array of Current User', arrayOfCurrentUser)
     const [tokenState, setTokenState] = useState(TOKEN)
+    const arrayOfCompanies = []
+    arrayOfCompanies.push(...allCompanies)
 
     const token = localStorage.getItem('token')
-    let thisCompany = []
-    const allCompany = []
-    allCompany.push(...allCompanies)
-    console.log('2 token', token)
+    const [thisCompany, setThisCompany] = useState([]);
+    console.log('2 ALLCOMPANIES', allCompanies)
 
-    allCompany.map(item => {
-        if (CurrentUser.companyId != null && item.id == CurrentUser.companyId) {
-            thisCompany = item;
-            return
-        }
-    })
-    console.log('thi company', thisCompany)
+    
+    
+    // allCompany.map(item => {
+    //     console.log('ITEM', item)
+    //     if (CurrentUser.companyId != null && item.id == CurrentUser.companyId) {
+    //         testCompany = item
+    //         return
+    //     }
+    //     else(
+    //         <>
+    //         CurrentUser.companyId= null
+    //         </>
+    //     )
+    // })
     
 
     useEffect(() => {
-        console.log('3 UseEffect запустился')
+        
         if (user != null) {
             console.log('user is null')
         }
-
+        
+        
+        // let decodedToken = jwtDecode(token)
+        
+        // setTokenState(CurrentUser)
+        dispatch(getUserInfo);
+        dispatch(authorize())
 
         
-        if (token) {
-            let decodedToken = jwtDecode(token)
-            setTokenState(CurrentUser)
-            dispatch(getUserInfo);
-            dispatch(getAllCompanies());
-            
-            // localStorage.setItem('token',tokenState)
-            // dispatch(authorize({tokenState}))
-
-        } else {
-            localStorage.removeItem('token')
-        }
-    }, [TOKEN])
-
-    const handleClick = () => {
         
-        dispatch(logout())
-        router.push('/')
+        
+        // localStorage.setItem('token',tokenState)
+        // dispatch(authorize({tokenState}))
+
+        
+  
+        dispatch(getAllCompanies());
+        console.log('ALL COMPANIES FROM USEEFFECT', allCompanies)
+        setThisCompany(allCompanies)
+        console.log('3 UseEffect запустился')
+
+    },[allCompanies])
+
+    console.log('thi company', thisCompany)
+
+    const handleClick =async() => {
+        router.push('/login')
+        await  dispatch(logout())
+        
     }
 
     return (
@@ -138,13 +153,24 @@ export default function ProfileComponent(user) {
             <Row>
                 <Col>
                     <Col>
-                        <h3></h3>
-                        <div><p>Название компании: {thisCompany && thisCompany.name}</p></div>
-                        <div><p>БИН компании: {thisCompany && thisCompany.bin}</p></div>
-                        <div><p>Описание компании: {thisCompany && thisCompany.description}</p></div>
-                        <div><p>Адрес компании: {thisCompany && thisCompany.address}</p></div>
-                        <div><p>Телефон компании: {thisCompany && thisCompany.contactPhone}</p></div>
-                        <div><p>Email компании: {thisCompany && thisCompany.contactEmail}</p></div>
+                    {thisCompany.length > 0 && thisCompany.map((item) => {
+
+                        if (item.id === CurrentUser.companyId) {
+                            return (
+                                <>
+                                    <h3></h3>
+                                    <div><p>Название компании: {item && item.name}</p></div>
+                                    <div><p>БИН компании: {item && item.bin}</p></div>
+                                    <div><p>Описание компании: {item && item.description}</p></div>
+                                    <div><p>Адрес компании: {item && item.address}</p></div>
+                                    <div><p>Телефон компании: {item && item.contactPhone}</p></div>
+                                    <div><p>Email компании: {item && item.contactEmail}</p></div>
+                                </>
+                            );
+        }
+        return null; // You can return null if there's no match
+    })}
+                        
                     </Col>
                     <Link href='/addcompany'>
                         <button className='btn btn-primary'>

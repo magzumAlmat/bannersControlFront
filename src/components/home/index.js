@@ -10,6 +10,7 @@ export default function Home() {
     const token=localStorage.getItem('token')
     const TOKEN = useSelector((state) => state.auth.authToken);
     const CurrentCompany = useSelector((state) => state.auth.currentCompany);
+    const CurrentUSER = useSelector((state) => state.auth.currentUser);
     let decodedToken=jwtDecode(token)
     console.log('decodec token from home',decodedToken)
     const CompanyId=decodedToken.companyId
@@ -21,7 +22,7 @@ export default function Home() {
     console.log('1 bannersArray=',bannersArray)
     const [bannersState, setBannersState] = useState([])
     console.log('2 Current company from home=', CurrentCompany)
-    
+    console.log('3 Current USER=-----', CurrentUSER)
 
     // useEffect(()=>{
     
@@ -39,8 +40,13 @@ export default function Home() {
     
     // },[CurrentCompany,banners])
     useEffect(() => {
-        dispatch(getUserInfo);
+       dispatch(getUserInfo);
+        // if (CurrentUSER.companyId!=undefined){
+        //     dispatch(getUserInfo);
+        // }
+       
     
+
         if (CurrentCompany != null) {
             dispatch(getBannerByCompanyIdAction(CurrentCompany));
         }

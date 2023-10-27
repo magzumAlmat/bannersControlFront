@@ -35,8 +35,9 @@ export default function Login() {
     // const currentUser=useSelector((state)=>{state.auth.currentUser})
     // console.log('somevar',someVar,'authToken=',token)
 
-
+    
     useEffect(() => {
+        
         const timer = setInterval(() => {
             if (time > 0) {
                 setTime(time - 1);
@@ -76,7 +77,7 @@ export default function Login() {
             setInputEnabled(true); // Разрешить ввод
             dispatch(verifyCodeAction(email, lastFour))
            
-            router.push('/layout');
+            router.push('/mainpage');
            
            
 
@@ -95,13 +96,15 @@ export default function Login() {
 
 
     const loginWithEmailAndPassword=async()=>{
-        await dispatch(loginAction(email,password))        
-        router.push('/layout');
+        await dispatch(loginAction(email,password))   
+        window.location.reload();     
+        router.push('/mainpage');
        
     }
 
     const loginInspectorWithEmailAndPassword=async()=>{
-        await dispatch(loginInspectorAction(email,password))        
+        await dispatch(loginInspectorAction(email,password))    
+        window.location.reload();    
         router.push('/inspector');
        
     }

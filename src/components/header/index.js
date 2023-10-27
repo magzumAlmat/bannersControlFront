@@ -29,11 +29,14 @@ import {
 import Link from 'next/link';
 import { authorize } from '@/store/slices/authSlice';
 import Image from "next/image";
+import { getUserInfo } from '@/store/slices/authSlice';
+import { useSelector } from 'react-redux';
 export default function Header(user) {
 
-
+  const CurrentUSER = useSelector((state) => state.auth.currentUser);
 
   console.log('user=',user.loggedIn)
+  console.log('HEADER Current USER=-----', CurrentUSER)
   const dispatch = useDispatch();
   useEffect(()=>{
       if (user!=null){
@@ -45,6 +48,11 @@ export default function Header(user) {
       if(token){
           let decodedToken=jwtDecode(token)
           dispatch(authorize({token}))
+          
+        //   if (CurrentUSER==undefined || CurrentUSER==null || CurrentUSER==null ){
+        //     dispatch(getUserInfo);
+        // }
+       
       }
       else{
           localStorage.removeItem('token')
@@ -86,13 +94,18 @@ export default function Header(user) {
 {user.loggedIn===true  &&
 
       <Navbar color="light" light expand="md">
-      <NavbarBrand href="/layout">E-ZHARNAMA</NavbarBrand>
+      <NavbarBrand href="/mainpage">E-ZHARNAMA</NavbarBrand>
           <Container>
            
             <Nav className="ml-auto" navbar>
               <NavItem>
-                    <Link href="/layout">Главная</Link>
+                    <Link href="/mainpage">Главная</Link>
                 </NavItem>
+                <NavItem>
+                    <Link href="/layout">Доска баннеров</Link>
+                </NavItem>
+                
+
                 <NavItem>
                     <Link href="/addcompany">Создать компанию</Link>
                 </NavItem>

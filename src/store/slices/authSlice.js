@@ -14,7 +14,7 @@ const initialState = {
   codeFromServer:'none',
   bannersById:'',
   allBanners:'',
-  allCompanies:'',
+  allCompanies:[],
   allRevises:''
 };
 const token = localStorage.getItem('token');
@@ -105,9 +105,20 @@ export const authSlice = createSlice({
       state.allRevises=action.payload
       
     },   
-    getAllCompaniesReducer:(state,action)=>{
-      console.log('1.3 getAllBannersReducerr-',action.payload)
-      state.allCompanies=action.payload
+    getAllCompaniesReducer:(state,data)=>{
+      const existingPostIds = state.allCompanies.map(post => post.id);
+      // Фильтруйте новые посты, чтобы исключить дубликаты
+      const newPosts = data.payload.filter(newPost => !existingPostIds.includes(newPost.id));
+      console.log('New posts from reducer', newPosts)
+      // Добавьте только новые посты в state.allPosts
+      state.allCompanies.push(...newPosts);
+      console.log('All companies from reducer', state.allCompanies)
+
+
+
+      // console.log('1.3 getAllBannersReducerr-',action.payload)
+      // state.allCompanies.push(...action.payload)
+
       
     },        
     getAllBannersReducer:(state,action)=>{
@@ -132,6 +143,7 @@ export const authSlice = createSlice({
     authorize: (state, action) => {
 
       state.someVar=action.payload
+      state.authToken=action.payload
       
       console.log('PAYLOAD=',action.payload,'codeFromServer=',state.currentUser)
 
@@ -162,7 +174,17 @@ export const authSlice = createSlice({
       const decoded = jwt_decode(action.payload.token);
       console.log('decoded token=========', decoded)
 
-      state.authToken=decoded
+      
+
+      state.authToken = {
+        id: decoded.id,
+        email: decoded.email,
+        code:decoded.code,
+        name:decoded.name,
+        phone:decoded.phone,
+        lastname:decoded.lastname,
+        companyId:decoded.companyId,
+      };
 
       state.currentUser = {
         id: decoded.id,
@@ -340,6 +362,7 @@ export const  getBannerByCompanyIdAction= (companyId) => async(dispatch) => {
 };
 
 export const  getUserInfo=async(dispatch)=>{
+  
   console.log('1 getUserInFo started')
   const response = await axios.get(
     `${END_POINT}/api/auth/getAuthentificatedUserInfo`,{

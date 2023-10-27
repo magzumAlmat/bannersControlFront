@@ -52,7 +52,7 @@ export default function Home() {
         }
     
         setBannersState(banners); // Moved to the effect function
-    }, [CurrentCompany]); // Listen to changes in CurrentCompany and banners
+    }, [CurrentCompany, dispatch]); // Listen to changes in CurrentCompany and banners
 
 
 

@@ -143,6 +143,7 @@ export const authSlice = createSlice({
     authorize: (state, action) => {
 
       state.someVar=action.payload
+      state.authToken=null
       state.authToken=action.payload
       
       console.log('PAYLOAD=',action.payload,'codeFromServer=',state.currentUser)
@@ -248,6 +249,7 @@ export const authSlice = createSlice({
           axios.defaults.headers.common['Authorization'] = ''; // Remove Authorization header
           state.currentUser = null;
           state.isAuth = false;
+          state.authToken = null;
       }
   }
 });

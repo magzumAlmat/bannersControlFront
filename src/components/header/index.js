@@ -59,7 +59,7 @@ export default function Header(user) {
       else{
           localStorage.removeItem('token')
       }
-  },[])  
+  },[dispatch])  
   
 
   let [LoggedIn,setLoggedIn] = useState(false)

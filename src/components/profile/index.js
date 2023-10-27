@@ -44,7 +44,8 @@ export default function ProfileComponent(user) {
 
     const token = localStorage.getItem('token')
     const [thisCompany, setThisCompany] = useState([]);
-    console.log('2 ALLCOMPANIES', allCompanies)
+
+    console.log('2 ALLCOMPANIES', allCompanies);
 
     
     
@@ -74,21 +75,16 @@ export default function ProfileComponent(user) {
         // setTokenState(CurrentUser)
         dispatch(getUserInfo);
         dispatch(authorize())
-
-        
-        
-        
         // localStorage.setItem('token',tokenState)
         // dispatch(authorize({tokenState}))
-
-        
-  
         dispatch(getAllCompanies());
         console.log('ALL COMPANIES FROM USEEFFECT', allCompanies)
         setThisCompany(allCompanies)
         console.log('3 UseEffect запустился')
 
-    },[allCompanies])
+    },[allCompanies, dispatch])
+
+    
 
     console.log('thi company', thisCompany)
 

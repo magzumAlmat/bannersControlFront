@@ -92,11 +92,7 @@ export default function ProfileComponent(user) {
 
     console.log('thi company', thisCompany)
 
-    const handleClick =async() => {
-        router.push('/login')
-        await  dispatch(logout())
-        
-    }
+    
 
     return (
 
@@ -149,43 +145,33 @@ export default function ProfileComponent(user) {
                 </Col>
             </Row>
         </div>
-            <div className='card p-3 mt-5'>
-            <Row>
-                <Col>
-                    <Col>
-                    {thisCompany.length > 0 && thisCompany.map((item) => {
-
-                        if (item.id === CurrentUser.companyId) {
-                            return (
-                                <>
-                                    <h3></h3>
-                                    <div><p>Название компании: {item && item.name}</p></div>
-                                    <div><p>БИН компании: {item && item.bin}</p></div>
-                                    <div><p>Описание компании: {item && item.description}</p></div>
-                                    <div><p>Адрес компании: {item && item.address}</p></div>
-                                    <div><p>Телефон компании: {item && item.contactPhone}</p></div>
-                                    <div><p>Email компании: {item && item.contactEmail}</p></div>
-                                </>
-                            );
-        }
-        return null; // You can return null if there's no match
-    })}
-                        
-                    </Col>
-                    <Link href='/addcompany'>
-                        <button className='btn btn-primary'>
-                            Изменить
-                        </button>
-                    </Link>
-                </Col>
-            </Row>
-        </div>
-        
-    
-    
-        <div className='d-flex justify-content-center mt-5 mb-5'>
-            <button onClick={() => {handleClick()}} className='btn btn-primary'>logout</button>
-        </div>
+        <div className='card p-3 mt-5'>
+    <Row>
+        <Col>
+            <Col>
+            {thisCompany.length > 0 && thisCompany
+                .filter(item => item.id === (CurrentUser && CurrentUser.companyId)) // Check if CurrentUser is not null
+                .map(item => (
+                    <>
+                        <h3></h3>
+                        <div><p>Название компании: {item && item.name}</p></div>
+                        <div><p>БИН компании: {item && item.bin}</p></div>
+                        <div><p>Описание компании: {item && item.description}</p></div>
+                        <div><p>Адрес компании: {item && item.address}</p></div>
+                        <div><p>Телефон компании: {item && item.contactPhone}</p></div>
+                        <div><p>Email компании: {item && item.contactEmail}</p></div>
+                    </>
+                ))
+            }
+            </Col>
+            <Link href='/addcompany'>
+                <button className='btn btn-primary'>
+                    Изменить
+                </button>
+            </Link>
+        </Col>
+    </Row>
+</div>
     </div>
 
 );

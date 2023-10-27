@@ -31,10 +31,12 @@ import { authorize } from '@/store/slices/authSlice';
 import Image from "next/image";
 import { getUserInfo } from '@/store/slices/authSlice';
 import { useSelector } from 'react-redux';
+import { logout } from '@/store/slices/authSlice';
+import { useRouter } from 'next/navigation';
+
 export default function Header(user) {
-
   const CurrentUSER = useSelector((state) => state.auth.currentUser);
-
+  const router = useRouter();
   console.log('user=',user.loggedIn)
   console.log('HEADER Current USER=-----', CurrentUSER)
   const dispatch = useDispatch();
@@ -61,6 +63,13 @@ export default function Header(user) {
   
 
   let [LoggedIn,setLoggedIn] = useState(false)
+
+  const handleClick =() => {
+        
+    dispatch(logout())
+    router.push('/login')
+    
+}
  
 
   return (
@@ -115,6 +124,9 @@ export default function Header(user) {
             </Nav>
           </Container>
         <Container className='d-flex justify-content-end'>
+        <div className='me-5'>
+            <button onClick={() => {handleClick()}} className='btn btn-primary'>logout</button>
+        </div>
           <Nav navbar>
             <Link href="/customerprofile">
               <Image src={imageicon} alt="иконка профиля"/>

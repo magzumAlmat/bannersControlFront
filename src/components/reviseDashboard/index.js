@@ -77,6 +77,8 @@ export default function ReviseDashboard(bannderId) {
     // Send the formData to your server or dispatch it to a Redux action
     console.log('formDATA',formData);
     await dispatch(addReviseForBannerAction(formData,bannderId.bannerId))
+
+    
   };
 
   const handleFileChange = (event) => {
@@ -99,10 +101,11 @@ export default function ReviseDashboard(bannderId) {
   
 
     <div >
-       <Container>
-  <h6>
+       <h6>
   Cоздать проверку
   </h6>
+       <Container>
+ 
   <Row xs="2">
     <Col className="bg-light border">
     {bannersArray.map((item, index) => {
@@ -120,10 +123,10 @@ export default function ReviseDashboard(bannderId) {
                     />
                   </div>
                   <div className="col-sm-10">
-                    <h6>Banner title:{item.title}</h6>
+                    <p>Banner title: {item.title}</p>
                     <p>Banner number: {item.bannerNumber}</p>
-                    <p>Banner address:{item.banerAddress} </p>
-                    <p>Banner unique id:{item.uniqueCode} </p>
+                    <p>Banner address: {item.banerAddress} </p>
+                    <p>Banner unique code: {item.uniqueCode} </p>
 
                     {/* <h6>Company name:{matchingCompany.name}</h6>
                     <p>Company address: {matchingCompany.address}</p>
@@ -240,7 +243,7 @@ export default function ReviseDashboard(bannderId) {
           />
         </div> */}
         <div>
-          <button type="submit" >Создать проверку</button>
+          <button type="submit" onClick={()=>{alert('Проверка создана !')}} >Создать проверку</button>
         </div>
       </form>
     </Col>
@@ -256,10 +259,7 @@ export default function ReviseDashboard(bannderId) {
       {/* Input field for searching by uniqueCode */}
      
 
-      <div className="container-fluid">
-        <h1>Cоздать проверку</h1>
-
-      </div>
+   
 
       {/* <ul className="pagination">
         {pageNumbers.map((number) => (

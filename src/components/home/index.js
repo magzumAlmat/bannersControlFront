@@ -74,10 +74,17 @@ export default function Home() {
                             </div>
                             <div className="col-sm-10">
                         
-                                      <h1>Banner title:{item.title}</h1>
+                                      <p>Banner title: {item.title}</p>
                                         <p>Banner number: {item.bannerNumber}</p>
-                                        <p>Banner address:{item.banerAddress} </p>
-                                        <p>Banner unique id:{item.uniqueCode} </p>
+                                        <p>Banner address: {item.banerAddress} </p>
+                                        <p>Banner unique code: {item.uniqueCode} </p>
+                                        <p>Banner created date: {item.createdDate}</p>
+                                        <p>Срок аренды(в днях): {item.rentDays}</p>
+                                        <p>Banner created date: {item.expiredDate}</p>
+                                       
+                                        
+
+
                                        
     
                                 

@@ -97,41 +97,42 @@ export default function Login() {
 
     const loginWithEmailAndPassword=async()=>{
         await dispatch(loginAction(email,password))   
-        window.location.reload();     
+        // window.location.reload();     
         router.push('/mainpage');
        
     }
 
     const loginInspectorWithEmailAndPassword=async()=>{
         await dispatch(loginInspectorAction(email,password))    
-        window.location.reload();    
+        // window.location.reload();    
         router.push('/inspector');
        
     }
 
     const handleClickEnterWithLoginPassword=async()=>{
-        if (validateEmail(email)) {
-            setStep(3);
+        setStep(3);
+        // if (validateEmail(email)) {
+        //     setStep(3);
             
 
           
 
-        } else {
-            alert('Пожалуйста, введите действительный адрес электронной почты.');
-        }
+        // } else {
+        //     alert('Пожалуйста, введите действительный адрес электронной почты.');
+        // }
        
     }
 
     const handleInspectorEnterWithEmailAndPassword=async()=>{
-        if (validateEmail(email)) {
+        // if (validateEmail(email)) {
             setStep(4);
             
 
           
 
-        } else {
-            alert('Пожалуйста, введите действительный адрес электронной почты.');
-        }
+        // } else {
+        //     alert('Пожалуйста, введите действительный адрес электронной почты.');
+        // }
        
     }
 
@@ -267,7 +268,7 @@ export default function Login() {
                                 <br/>
                                
 
-                                <Button onClick={loginWithEmailAndPassword} color="primary">Войти
+                                <Button onClick={loginWithEmailAndPassword} color="primary" type='button'>Войти
 
                                 </Button>
                             </Col>

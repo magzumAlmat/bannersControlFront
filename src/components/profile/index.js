@@ -27,6 +27,7 @@ import { useRouter } from 'next/navigation';
 
 
 export default function ProfileComponent(user) {
+    
     const dispatch = useDispatch()
     const router=useRouter()
     const CurrentUser = useSelector((state) => state.auth.currentUser);

@@ -128,7 +128,7 @@ export default function Header(user) {
             <button onClick={() => {handleClick()}} className='btn btn-primary'>logout</button>
         </div>
           <Nav navbar>
-            <Link href="/customerprofile">
+            <Link href="/customerprofile" passHref>
               <Image src={imageicon} alt="иконка профиля"/>
             </Link>
           </Nav>

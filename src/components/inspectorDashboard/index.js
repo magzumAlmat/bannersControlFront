@@ -149,18 +149,19 @@ console.log('allrevises',allRevises)
                     />
                   </div>
                   <div className="col-sm-5">
-                    <h6>Banner title:{item.title}</h6>
+                    <p>Banner title: {item.title}</p>
                     <p>Banner number: {item.bannerNumber}</p>
-                    <p>Banner address:{item.banerAddress} </p>
-                    <p>Banner unique id:{item.uniqueCode} </p>
-                    <p>Banner createdDate id:{formattedCreatedDate} </p>
-                    <p>Banner expiredDate:{formattedExpiredDate} </p>
+                    <p>Banner address: {item.banerAddress} </p>
+                    <p>Banner unique code: {item.uniqueCode} </p>
+                    <p>Banner createdDate: {formattedCreatedDate} </p>
+                    <p>Banner expiredDate: {formattedExpiredDate} </p>
                     
-                    <h6>Company name:{matchingCompany.name}</h6>
+                    <p>Company name: {matchingCompany.name}</p>
+                    <p>Company description: {matchingCompany.description} </p>
                     <p>Company address: {matchingCompany.address}</p>
-                    <p>Company bin:{matchingCompany.bin} </p>
-                    <p>Company contactEmail:{matchingCompany.contactEmail} </p>
-                    <p>Company description:{matchingCompany.description} </p>
+                    <p>Company bin: {matchingCompany.bin} </p>
+                    <p>Company contactEmail: {matchingCompany.contactEmail} </p>
+                    
                    
               
                   </div>

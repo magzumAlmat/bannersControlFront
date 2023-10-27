@@ -147,6 +147,7 @@ export default function AddBanner() {
                   )}
                 </div>
                 <br />
+                <label >Наименование компании</label>
                 <Input
                   label='Name of company'
                   name='title'
@@ -155,13 +156,15 @@ export default function AddBanner() {
                   onChange={handleChange}
                   placeholder='Введите название'
                 />
+                <label >Номер баннера</label>
                 <Input
-                  label='номер банера'
+                  label='номер баннера'
                   name='bannerNumber'
                   value={bannerNumber}
                   onChange={handleChange}
                   placeholder='номер банера'
                 />
+                <label >Адрес баннера</label>
                 <Input
                   label='adress'
                   name='bannerAddress'
@@ -169,6 +172,7 @@ export default function AddBanner() {
                   onChange={handleChange}
                   placeholder='Введите адрес баннера'
                 />
+                <label >Дата начала</label>
                 <Input
                      type="date"
                   label='Created Date' // Added
@@ -177,6 +181,7 @@ export default function AddBanner() {
                   onChange={handleChange}
                   placeholder='Введите дату создания'
                 />
+                <label >Срок действия в днях</label>
                 <Input
                   label='Rent Days' // Added
                   name='rentDays'
@@ -184,6 +189,7 @@ export default function AddBanner() {
                   onChange={handleChange}
                   placeholder='Введите количество дней аренды'
                 />
+                <label >Дата окончания</label>
                 <Input
                   type="date"
                   label='Expired Date' // Added

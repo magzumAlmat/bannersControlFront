@@ -30,6 +30,7 @@ import Link from "next/link";
 import AddCompany from "@/components/addcompany";
 
 export default function AddCompanyPage() {
+    
     return (
         <>
             <Header loggedIn={true}/>

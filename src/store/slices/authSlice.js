@@ -165,6 +165,15 @@ export const authSlice = createSlice({
       
     },
 
+    loginAuthorize: (state, action) => {
+
+      state.someVar=action.payload
+      
+      console.log('PAYLOAD=',action.payload,'codeFromServer=',state.currentUser)
+
+      
+    },
+
     sendCodeReducer: (state, action) => {
       // console.log('SendCodeReducer token from profileMyposts'.action.payload)
       localStorage.setItem("token", action.payload.token);

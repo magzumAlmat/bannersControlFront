@@ -1,9 +1,11 @@
 {
+  "/not-found": "app/not-found.js",
+  "/page": "app/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/login/page": "app/login/page.js",
-  "/addbanner/page": "app/addbanner/page.js",
-  "/layout/page": "app/layout/page.js",
-  "/inspector/page": "app/inspector/page.js",
   "/mainpage/page": "app/mainpage/page.js",
-  "/revise/page": "app/revise/page.js"
+  "/customerprofile/page": "app/customerprofile/page.js",
+  "/addprofiledatapage/page": "app/addprofiledatapage/page.js",
+  "/inspector/page": "app/inspector/page.js",
+  "/addbanner/page": "app/addbanner/page.js",
+  "/login/page": "app/login/page.js"
 }

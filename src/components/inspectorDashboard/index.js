@@ -28,6 +28,7 @@ export default function InspectorDashboard() {
   const companies = useSelector((state) => state.auth.allCompanies);
   const allRevises = useSelector((state) => state.auth.allRevises);
   const bannersArray = [...banners];
+  
   const companiesArray = [...companies];
   const itemsPerPage = 5;
 
@@ -39,9 +40,10 @@ export default function InspectorDashboard() {
   useEffect(() => {
     dispatch(getAllCompanies());
     dispatch(getAllBanners());
+    
     dispatch(getAllRevises())
 
-  }, []);
+  }, [dispatch]);
 
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(bannersArray.length / itemsPerPage); i++) {

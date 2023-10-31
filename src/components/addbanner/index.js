@@ -87,7 +87,7 @@ export default function AddBanner() {
 
   const handleSubmit = async () => {
     // Проверка наличия всех обязательных полей перед отправкой
-    if (!selectedFile || !bannerAddress || !createdDate || !rentDays || !expiredDate) {
+    if (!selectedFile || !bannerAddress ||  !expiredDate) {
       setError('Пожалуйста, заполните все обязательные поля.');
       return;
     }
@@ -101,7 +101,7 @@ export default function AddBanner() {
     formData.append('bannerNumber', bannerNumber);
     formData.append('bannerAddress', bannerAddress);
     formData.append('createdDate', createdDate); // Added
-    formData.append('rentDays', rentDays); // Added
+    
     formData.append('expiredDate', expiredDate); // Added
 
     await dispatch(addBannerAction(formData));
@@ -147,7 +147,7 @@ export default function AddBanner() {
                   )}
                 </div>
                 <br />
-                <label >Наименование компании</label>
+                <label >Наименование баннера</label>
                 <Input
                   label='Name of company'
                   name='title'
@@ -181,14 +181,7 @@ export default function AddBanner() {
                   onChange={handleChange}
                   placeholder='Введите дату создания'
                 />
-                <label >Срок действия в днях</label>
-                <Input
-                  label='Rent Days' // Added
-                  name='rentDays'
-                  value={rentDays}
-                  onChange={handleChange}
-                  placeholder='Введите количество дней аренды'
-                />
+              
                 <label >Дата окончания</label>
                 <Input
                   type="date"

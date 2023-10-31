@@ -35,6 +35,8 @@ import {
 import Header from '../header';
 import Link from 'next/link';
 import { addCompanyAction } from '@/store/slices/authSlice';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 export default function AddPCompany  () {
     const dispatch = useDispatch();
     
@@ -48,10 +50,20 @@ export default function AddPCompany  () {
 
     const [error, setError] = useState('');
   
+    const [serverError, setServerError] = useState('');
+    const errorFromSlice= useSelector((state) => state.auth.error);
+    console.log('errorFromSlice',errorFromSlice.message)
+   
 
-
-
-
+    const myFunction=()=>{
+        setServerError(errorFromSlice.message)
+    }
+    useEffect(()=>{
+       
+        setTimeout(myFunction, 3000);
+        setServerError('')
+        
+    },[errorFromSlice.message])
 
 
     const handleChange = (e) => {
@@ -81,12 +93,14 @@ export default function AddPCompany  () {
     };
 
     const handleSubmit = async () => { // Проверка наличия всех обязательных полей перед отправкой
+
         if (!contactPhone || !name ) {
             setError('Пожалуйста, заполните все обязательные поля.');
             return;
         }
 
         // Сброс ошибки и отправка данных
+        setServerError('')
         setError('');
         await dispatch(addCompanyAction({name,description,bin,address,contactEmail,contactPhone}));
         setSuccess(true);
@@ -132,20 +146,21 @@ export default function AddPCompany  () {
                                         <Input label="contactPhone" name="contactPhone"
                                             value={contactPhone}
                                             onChange={handleChange}
+                                            required={true}
                                             placeholder='Введите контактный телефон'/> 
                                          <Input label="contactEmail" name="contactEmail"
                                             value={contactEmail}
+                                            required={true}
                                             onChange={handleChange}
                                             placeholder='Введите электронную почту'/>    
                                         
 
-                                            {
-                                        error && <Typography color="error">
-                                            {error}</Typography>
-                                    }
-                                        {
-                                        success && <Typography color="primary">Данные успешно отправлены.</Typography>
-                                    }
+                                        {error && <Typography color="error">{error}</Typography>}
+                                        {serverError && <p>{serverError}</p>}
+                                        {serverError =='' && (
+                                        <Typography color="primary">Данные успешно отправлены.</Typography>
+                                        )}
+
 
                                         <br />
                                         <Button variant="contained" color="primary"

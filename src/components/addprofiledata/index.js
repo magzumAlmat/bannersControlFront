@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     TextField,
     Container,
@@ -42,10 +42,19 @@ const AddProfileData = () => {
     const [name, setName] = useState('');
     const [lastname, setLastName] = useState('');
     const [error, setError] = useState('');
+    
+    const [serverError, setServerError] = useState('');
     const [success, setSuccess] = useState(false);
     
+    const errorFromSlice= useSelector((state) => state.auth.error);
+    console.log('errorFromSlice',errorFromSlice.message)
     
-    const CurrentUser= useSelector((state) => state.auth.someVar);
+        // state.error='Номер телефона уже используется другим пользователем'
+        // console.log(state.error)
+       
+    useEffect(()=>{
+        setServerError(errorFromSlice.message)
+    },[errorFromSlice.message])
 
     const handleChange = (e) => {
         const {name, value} = e.target;
@@ -67,17 +76,33 @@ const AddProfileData = () => {
         }
     };
 
+    
+
     const handleSubmit = async () => { // Проверка наличия всех обязательных полей перед отправкой
+
         if (!password || !phone || !name || !lastname) {
             setError('Пожалуйста, заполните все обязательные поля.');
             return;
         }
 
         // Сброс ошибки и отправка данных
-        setError('');
-        await dispatch(addFullProfileDataAction({password, phone, name, lastname}));
-        setSuccess(true);
-    };
+        try{
+            setError('');
+            setServerError('');
+            await dispatch(addFullProfileDataAction({password, phone, name, lastname}));
+            setSuccess(true);
+
+        } catch (error) {
+            console.log('1 error=',error)
+            if (errorFromSlice.message == 'Номер телефона уже используется другим пользователем') {
+                setServerError('Номер телефона уже используется другим пользователем')
+                console.log('1 serverERROR =',serverError)
+            
+            } else {
+            setServerError('Ошибка при отправке данных.');
+            }
+
+        }}
 
   
     
@@ -117,10 +142,11 @@ const AddProfileData = () => {
                                         error && <Typography color="error">
                                             {error}</Typography>
                                     }
-                                        {
-                                        success && <Typography color="primary">Данные успешно отправлены.</Typography>
-                                    }
-
+                                       {serverError && <p>{serverError}</p>}
+                                       {/* {errorFromSlice.message&&<p>{errorFromSlice.message}</p>} */}
+                                       {
+                                        serverError=='' && <Typography color="primary">Данные успешно отправлены.</Typography>
+                                       }
                                         <br />
                                         <Button variant="contained" color="primary"
                                             onClick={handleSubmit}>

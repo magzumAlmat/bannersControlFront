@@ -61,7 +61,7 @@ export default function Home() {
     return(
         <div className='container'>
             
-            {banners && CompanyId !=1 ? (
+            {banners  ? (
                 <div className="container-fluid">
                     <h1>Баннеры</h1>
                 {bannersArray.map((item, index)=>(
@@ -79,7 +79,7 @@ export default function Home() {
                                         <p>Banner address: {item.banerAddress} </p>
                                         <p>Banner unique code: {item.uniqueCode} </p>
                                         <p>Banner created date: {item.createdDate}</p>
-                                        <p>Срок аренды(в днях): {item.rentDays}</p>
+                                        {/* <p>Срок аренды(в днях): {item.rentDays}</p> */}
                                         <p>Banner created date: {item.expiredDate}</p>
                                        
                                         

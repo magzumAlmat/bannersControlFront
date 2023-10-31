@@ -64,9 +64,9 @@ export default function Header(user) {
 
   let [LoggedIn,setLoggedIn] = useState(false)
 
-  const handleClick =() => {
+  const handleClick =async() => {
         
-    dispatch(logout())
+    await dispatch(logout())
     router.push('/login')
     
 }

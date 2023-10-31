@@ -15,7 +15,8 @@ const initialState = {
   bannersById:'',
   allBanners:'',
   allCompanies:[],
-  allRevises:''
+  allRevises:'',
+  error:''
 };
 const token = localStorage.getItem('token');
 
@@ -78,6 +79,12 @@ export const authSlice = createSlice({
   initialState,
 
   reducers: {
+    sendErrorReducer:(state,action)=>{
+      // console.log('sendErrorReducer error=',action)
+      console.log('sendErrorReducer error=',action.payload)
+      state.error=action.payload
+    },
+
     loginReducer:(state,action)=>{
      
               localStorage.setItem('token', action.payload.token);
@@ -264,7 +271,7 @@ export const authSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { getAllRevisesReducer,ReviseReducer,authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer,setCurrentUser,getBannerByCompanyIdReducer,getAllBannersReducer, loginReducer,addCompanyReducer,getAllCompaniesReducer} = authSlice.actions;
+export const { sendErrorReducer,getAllRevisesReducer,ReviseReducer,authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer,setCurrentUser,getBannerByCompanyIdReducer,getAllBannersReducer, loginReducer,addCompanyReducer,getAllCompaniesReducer} = authSlice.actions;
 
 // Use useEffect for token initialization
 // export const useTokenInitialization = () => {
@@ -525,13 +532,7 @@ export const addFullProfileDataAction=(password,phone,name,lastname)=>async(disp
   for (const value of formData.values()) {
       console.log('addFullProfileDataAction  formData Values',value);
     }
-
-  
-
   // console.log('1 createPostSlice | createPostFunc запустился ');
-  
-
-  
 
   if (!token) {
     // Handle the case where the token is not available or invalid
@@ -563,8 +564,15 @@ export const addFullProfileDataAction=(password,phone,name,lastname)=>async(disp
 
     console.log('Data uploaded successfully:', response.data);
     dispatch(sendUserDataReducer(response.data))
+
+ 
     // Handle success, e.g., dispatch an action to update state
   } catch (error) {
+    console.log('erro from auth Slicer=',error.response.data.message)
+    
+      await dispatch(sendErrorReducer(error.response.data))
+    
+
     // Handle errors, e.g., by returning an error object or dispatching an error action
     console.error('Error uploading data:', error);
     // You can dispatch an error action here if needed.
@@ -623,6 +631,8 @@ export const addCompanyAction=(name,description,bin,address,contactEmail,contact
       dispatch(addCompanyReducer(response.data))
       // Handle success, e.g., dispatch an action to update state
     } catch (error) {
+      await dispatch(sendErrorReducer(error.response.data))
+    
       // Handle errors, e.g., by returning an error object or dispatching an error action
       console.error('Error uploading data:', error);
       // You can dispatch an error action here if needed.

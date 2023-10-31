@@ -55,15 +55,14 @@ export default function AddPCompany  () {
     console.log('errorFromSlice',errorFromSlice.message)
    
 
-    const myFunction=()=>{
-        setServerError(errorFromSlice.message)
-    }
+    // const myFunction=()=>{
+    //     setServerError(errorFromSlice.message)
+    // }
     useEffect(()=>{
-       
-        setTimeout(myFunction, 3000);
-        setServerError('')
+        setServerError(errorFromSlice.message)
+        // setServerError('')
         
-    },[errorFromSlice.message])
+    },[errorFromSlice])
 
 
     const handleChange = (e) => {
@@ -101,6 +100,7 @@ export default function AddPCompany  () {
 
         // Сброс ошибки и отправка данных
         setServerError('')
+        console.log('serverErrpr after handleSubmit',serverError)
         setError('');
         await dispatch(addCompanyAction({name,description,bin,address,contactEmail,contactPhone}));
         setSuccess(true);
@@ -157,7 +157,7 @@ export default function AddPCompany  () {
 
                                         {error && <Typography color="error">{error}</Typography>}
                                         {serverError && <p>{serverError}</p>}
-                                        {serverError =='' && (
+                                        {serverError ==''  &&(
                                         <Typography color="primary">Данные успешно отправлены.</Typography>
                                         )}
 

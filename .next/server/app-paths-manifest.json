@@ -1,6 +1,6 @@
 {
   "/addprofiledatapage/page": "app/addprofiledatapage/page.js",
   "/customerprofile/page": "app/customerprofile/page.js",
-  "/addcompany/page": "app/addcompany/page.js",
-  "/login/page": "app/login/page.js"
+  "/login/page": "app/login/page.js",
+  "/addcompany/page": "app/addcompany/page.js"
 }

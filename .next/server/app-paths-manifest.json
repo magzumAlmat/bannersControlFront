@@ -1,6 +1,5 @@
 {
-  "/addprofiledatapage/page": "app/addprofiledatapage/page.js",
-  "/customerprofile/page": "app/customerprofile/page.js",
-  "/login/page": "app/login/page.js",
-  "/addcompany/page": "app/addcompany/page.js"
+  "/not-found": "app/not-found.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/mainpage/page": "app/mainpage/page.js"
 }

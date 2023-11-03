@@ -16,7 +16,8 @@ const initialState = {
   allBanners:'',
   allCompanies:[],
   allRevises:'',
-  error:''
+  error:'',
+  uploadProgress: 0,
 };
 const token = localStorage.getItem('token');
 
@@ -79,6 +80,18 @@ export const authSlice = createSlice({
   initialState,
 
   reducers: {
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
+    clearError: (state) => {
+      state.error = null;
+    },
+    setUploadProgress: (state, action) => {
+      state.uploadProgress = action.payload;
+    },
+    clearUploadProgress: (state) => {
+      state.uploadProgress = 0;
+    },
     sendErrorReducer:(state,action)=>{
       // console.log('sendErrorReducer error=',action)
       console.log('sendErrorReducer error=',action.payload)
@@ -271,7 +284,12 @@ export const authSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { sendErrorReducer,getAllRevisesReducer,ReviseReducer,authorize, logout, editVar ,sendCodeReducer,sendUserDataReducer,setCurrentUser,getBannerByCompanyIdReducer,getAllBannersReducer, loginReducer,addCompanyReducer,getAllCompaniesReducer} = authSlice.actions;
+export const { setError,clearError,setUploadProgress,
+  clearUploadProgress,sendErrorReducer,
+  getAllRevisesReducer,ReviseReducer,authorize, logout, editVar ,
+  sendCodeReducer,sendUserDataReducer,setCurrentUser,
+  getBannerByCompanyIdReducer,getAllBannersReducer, 
+  loginReducer,addCompanyReducer,getAllCompaniesReducer} = authSlice.actions;
 
 // Use useEffect for token initialization
 // export const useTokenInitialization = () => {
@@ -512,6 +530,118 @@ export const verifyCodeAction = (email,code) => async (dispatch) => {
     dispatch(sendCodeReducer(res.data));
   });
 };
+
+
+
+
+// export const addWatermarkToImageAction=(images)=>async(dispatch)=>{
+  
+// console.log('addWatermarkToImageAction Started images=',images)
+//   const token = localStorage.getItem("token");
+
+
+//   const formData = new FormData();
+//   formData.append('images', images[0]);
+//   formData.append('images', images[1]);
+ 
+
+//   let sometext='text from shareFUNCTION'
+
+//   // console.log('FORMDATA before pass to redux',formData)
+//   // for (const value of formData.values()) {
+//   //     console.log('addWatermarkToImageAction  formData Values',value);
+//   //   }
+//   // console.log('1 createPostSlice | createPostFunc запустился ');
+
+//   if (!token) {
+//     // Handle the case where the token is not available or invalid
+//     console.error('Token not available');
+//     return;
+// }
+ 
+
+  
+ 
+//   try {
+//     const data = {
+//      images
+//     };
+//     console.log('Token from addFullProfileDataAction=',token,'addFullProfileDataAction Started formData=',data.images)
+//     const response = await axios.post(
+//       `${END_POINT}/api/banner/addimagecode`,
+//       formData,
+//       {
+//         headers: {
+//           // 'Authorization': `Bearer ${token}`,
+//           'Content-Type': 'multipart/form-data', // Set the content type to JSON
+//         },
+//       }
+//     );
+
+//     console.log('Data uploaded successfully:', response.data);
+//     // dispatch(sendUserDataReducer(response.data))
+
+ 
+//     // Handle success, e.g., dispatch an action to update state
+//   } catch (error) {
+//     console.log('erro from auth Slicer=',error.response.data.message)
+    
+//       await dispatch(sendErrorReducer(error.response.data))
+    
+
+//     // Handle errors, e.g., by returning an error object or dispatching an error action
+//     console.error('Error uploading data:', error);
+//     // You can dispatch an error action here if needed.
+//   }}
+
+
+
+export const addWatermarkToImageAction = (images,updateUploadProgress) => async (dispatch) => {
+  const token = localStorage.getItem('token');
+  const formData = new FormData();
+  formData.append('images', images[0]);
+  formData.append('images', images[1]);
+
+  if (!token) {
+    console.error('Token not available');
+    return;
+  }
+
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      onUploadProgress: (progressEvent) => {
+        const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        dispatch(setUploadProgress(percentage));
+        if (updateUploadProgress) {
+          updateUploadProgress(percentage);
+        }
+      },
+    };
+
+    const response = await axios.post(
+      `${END_POINT}/api/banner/addimagecode`,
+      formData,
+      config
+    );
+
+    console.log('Data uploaded successfully:', response.data);
+    dispatch(sendUserDataReducer(response.data));
+    dispatch(updateUploadProgress(100)); // Set the progress to 100% on success
+  } catch (error) {
+    console.error('Error uploading data:', error);
+    await dispatch(sendErrorReducer(error.response.data));
+  }
+};
+
+
+
+
+
+
+
 
 
 export const addFullProfileDataAction=(password,phone,name,lastname)=>async(dispatch)=>{

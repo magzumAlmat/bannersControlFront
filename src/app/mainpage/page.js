@@ -2,6 +2,7 @@
 import UserLogin from "@/components/login"
 import Header from "@/components/header"
 import Link from "next/link"
+import ImageUpload from "@/components/imagesupload"
 export default function MainPage() {
   return (
     <main>  
@@ -27,6 +28,7 @@ export default function MainPage() {
                 </Link>
                 </h1>
 
+<ImageUpload/>
     </main>
   )
 }

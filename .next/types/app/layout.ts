@@ -1,4 +1,4 @@
-// File: /Users/billionare/Documents/GenplanReklanaFront/src/app/layout.js
+// File: /Users/billionare/Documents/DEVELOPMENT/REACT/GenplanReklanaFront/bannersControlFront/src/app/layout.js
 import * as entry from '../../../src/app/layout.js'
 import type { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -36,6 +36,9 @@ import { useRef } from 'react';
 import { addCompanyAction } from '@/store/slices/authSlice';
 import { addBannerAction } from '@/store/slices/authSlice';
 
+import { GisMap } from '../map';
+
+
 export default function AddBanner() {
   const dispatch = useDispatch();
   const [title, setTitle] = useState('');
@@ -85,6 +88,12 @@ export default function AddBanner() {
     }
   };
 
+  const [markerPosition, setMarkerPosition] = useState(null);
+
+  const handleMarkerPositionChange = (newMarkerPosition) => {
+    setMarkerPosition(newMarkerPosition);
+  }
+
   const handleSubmit = async () => {
     // Проверка наличия всех обязательных полей перед отправкой
     if (!selectedFile || !bannerAddress ||  !expiredDate) {
@@ -95,14 +104,17 @@ export default function AddBanner() {
     // Сброс ошибки и отправка данных
     setError('');
 
+    
     const formData = new FormData();
     formData.append('imageUrl', selectedFile);
     formData.append('title', title);
     formData.append('bannerNumber', bannerNumber);
     formData.append('bannerAddress', bannerAddress);
     formData.append('createdDate', createdDate); // Added
-    
     formData.append('expiredDate', expiredDate); // Added
+    formData.append('bannerLongitude', markerPosition.lng); // Added
+    formData.append('bannerLatitude', markerPosition.lat); // Added
+    
 
     await dispatch(addBannerAction(formData));
     setSuccess(true);
@@ -118,11 +130,21 @@ export default function AddBanner() {
     console.log('handle click start', selectedFile);
   };
 
+  
+
+
   return (
     <div className='flexColumn'>
+    <Row>
+        <Col className='' sm='12' xs='12'><GisMap onMarkerPositionChange={handleMarkerPositionChange}/></Col>
+        {console.log('PARENT COMPONENT markerPOSITION=',markerPosition)}
+    </Row>
+     
+
       <Row>
         <Col className='' sm='4' xs='6'></Col>
         <Col sm='4' xs='6'>
+       
           <Row className='card'>
             <Col>
               <Label>Заполните данные баннера</Label>

@@ -16,7 +16,8 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-
+  FormControl,
+  InputLabel
   
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -75,13 +76,187 @@ export default function AddBanner() {
   const [selectedCompanyId, setSelectedCompanyId] = useState(null); // New state variable
   const [modalOpen, setModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const data = [
-    { id: 1, name: 'Company A', address: '123 Main St' },
-    { id: 2, name: 'Company B', address: '456 Oak St' },
-    { id: 3, name: 'Company C', address: '789 Pine St' },
+
+
+
+  const categoriesOfStreets = [
+    { id: 1, nameOfCategory: 'Категория A'},
+    { id: 2, nameOfCategory: 'Категория B'},
     // Add more data as needed
   ];
 
+ 
+
+  const typeOfAdObject = [
+    {id: 1, nameOfType: 'Билборд/ситиборд (сторона А)'},
+    {id: 2, nameOfType: 'Стихийная'},
+    {id: 3, nameOfType: 'Указатели (трансп. опора) '},
+    {id: 4, nameOfType: 'На заборе '},
+    {id: 5, nameOfType: 'LED дисплей '},
+    {id: 6, nameOfType: 'Мьюпи '},
+    {id: 7, nameOfType: 'Фасад '},
+    {id: 8, nameOfType: 'Бегущая строка '},
+    {id: 9, nameOfType: 'Стелла '},
+    {id: 10, nameOfType: 'Указатель (опора освещения) '},
+    {id: 11, nameOfType: 'Палатка/Тент/Шатер/Навес/Уличная мебель/Остановка '},
+    {id: 12, nameOfType: 'Другое '},
+    {id: 13, nameOfType: 'Вывеска '},
+    {id: 14, nameOfType: 'Надкрышная '},
+    {id: 15, nameOfType: 'Выносная/передвижная реклама '},
+    {id: 16, nameOfType: 'Брендмауэр'},
+    {id: 17, nameOfType: 'Билборд/ситиборд (сторона B)'},
+  ]
+
+
+  const [selectedType, setSelectedType] = useState('');
+
+  const handleTypeChange = (event) => {
+    setSelectedType(event.target.value);
+  };
+
+  const viewOfAd = [
+    {id: 1, nameOfView: 'Наружняя визуальная реклама за исключением видеоизображения'},
+    {id: 2, nameOfView: 'Лайтбокс (сити-формат)'},
+    {id: 3, nameOfView: 'Надкрышная световая наружная (визуальная) реклама (светодиномические панно или объемные неоновые буквы)'},
+    {id: 4, nameOfView: 'Реклама на палатках, тентах, шатрах, навесах, зонтах, флагах, вымпелах, штандартах'},
+    {id: 5, nameOfView: 'Реклама на киосках и павильонах временного типа'},
+    {id: 6, nameOfView: 'Выносная передвижная реклама'},
+    {id: 7, nameOfView: 'LED экран'},
+    {id: 8, nameOfView: 'Бегущая строка'},
+    {id: 9, nameOfView: 'Уличная мебель'},
+    {id: 10,nameOfView: 'Ситиборд'},
+  ]
+
+  const [selectedViewOfAd, setSelectedViewOfAd] = useState('');
+
+
+  const handleTypeChangeSelectedViewOfAd = (event) => {
+    setSelectedViewOfAd(event.target.value);
+  };
+
+
+  const tariffsByViewOfAd1= [ 
+    {id: 1, tariffName: 'До 2-х кв. м.'},
+    {id: 2, tariffName: 'от 2 до 5 кв. м'},
+    {id: 3, tariffName: 'от 5 до 10 кв.м'},
+    {id: 4, tariffName: 'от 10 до 20 кв.м'},
+    {id: 5, tariffName: 'от 20 до 30 кв.м'},
+    {id: 6, tariffName: 'от 30 до 50 кв.м'},
+    {id: 7, tariffName: 'от 50 до 70 кв.м'},
+    {id: 8, tariffName: 'свыше 70 кв.м'},
+  ]
+  const [selectedTariffsByViewOfAd1, setSelectedTariffsByViewOfAd1] = useState('');
+
+  const handleTypeChangeSelectedTariffByViewOfAd = (event) => {
+    setSelectedTariffsByViewOfAd1(event.target.value);
+  };
+
+  const tariffsByViewOfAd2= [ 
+    {id: 1, tariffName: 'Все размеры'},
+    
+  ]
+  const [selectedTariffsByViewOfAd2, setSelectedTariffsByViewOfAd2] = useState('');
+
+  const handleTypeChangeSelectedTariffByViewOfAd2 = (event) => {
+    setSelectedTariffsByViewOfAd2(event.target.value);
+  };
+
+  const tariffsByViewOfAd3= [ 
+    {id: 1, tariffName: 'до 30 кв.м'},
+    {id: 2, tariffName: 'свыше 30 кв.м'},
+    
+  ]
+  const [selectedTariffsByViewOfAd3, setSelectedTariffsByViewOfAd3] = useState('');
+
+  const handleTypeChangeSelectedTariffByViewOfAd3 = (event) => {
+    setSelectedTariffsByViewOfAd3(event.target.value);
+  };
+
+  const tariffsByViewOfAd4= [ 
+    {id: 1, tariffName: 'до 5 кв.м'},
+    {id: 2, tariffName: 'от 5 до 10 кв.м'},
+    {id: 3, tariffName: 'свыше 10 кв.м'},
+    
+  ]
+  const [selectedTariffsByViewOfAd4, setSelectedTariffsByViewOfAd4] = useState('');
+
+  const handleTypeChangeSelectedTariffByViewOfAd4 = (event) => {
+    setSelectedTariffsByViewOfAd4(event.target.value);
+  };
+
+
+  const tariffsByViewOfAd5= [ 
+    {id: 1, tariffName: 'до 2 кв.м'},
+    {id: 2, tariffName: 'от 2 до 5 кв.м'},
+    {id: 3, tariffName: 'от 5 до 10 кв.м'},
+    {id: 4, tariffName: 'свыше 10 кв.м'},
+    
+    
+  ]
+  const [selectedTariffsByViewOfAd5, setSelectedTariffsByViewOfAd5] = useState('');
+
+  const handleTypeChangeSelectedTariffByViewOfAd5 = (event) => {
+    setSelectedTariffsByViewOfAd5(event.target.value);
+  };
+
+
+  const tariffsByViewOfAd6= [ 
+    {id: 1, tariffName: 'Все размеры'},
+    
+  ]
+  const [selectedTariffsByViewOfAd6, setSelectedTariffsByViewOfAd6] = useState('');
+
+  const handleTypeChangeSelectedTariffByViewOfAd6 = (event) => {
+    setSelectedTariffsByViewOfAd6(event.target.value);
+  };
+
+
+  const tariffsByViewOfAd7= [ 
+    {id: 1, tariffName: 'до 20 кв.м'},
+    {id: 2, tariffName: 'свыше 20 кв.м'},
+    
+  ]
+  const [selectedTariffsByViewOfAd7, setSelectedTariffsByViewOfAd7] = useState('');
+
+  const handleTypeChangeSelectedTariffByViewOfAd7 = (event) => {
+    setSelectedTariffsByViewOfAd7(event.target.value);
+  };
+
+
+
+  const tariffsByViewOfAd8= [ 
+    {id: 1, tariffName: 'Все размеры'},
+    
+  ]
+  const [selectedTariffsByViewOfAd8, setSelectedTariffsByViewOfAd8] = useState('');
+
+  const handleTypeChangeSelectedTariffByViewOfAd8 = (event) => {
+    setSelectedTariffsByViewOfAd8(event.target.value);
+  };
+
+ 
+  const tariffsByViewOfAd9= [ 
+    {id: 1, tariffName: 'Все размеры'},
+    
+  ]
+  const [selectedTariffsByViewOfAd9, setSelectedTariffsByViewOfAd9] = useState('');
+
+  const handleTypeChangeSelectedTariffByViewOfAd9 = (event) => {
+    setSelectedTariffsByViewOfAd9(event.target.value);
+  };
+
+
+  const tariffsByViewOfAd10= [ 
+    {id: 1, tariffName: 'от 5 до 10 кв.м'},
+    
+  ]
+  const [selectedTariffsByViewOfAd10, setSelectedTariffsByViewOfAd10] = useState('');
+
+  const handleTypeChangeSelectedTariffByViewOfAd10 = (event) => {
+    setSelectedTariffsByViewOfAd10(event.target.value);
+  };
+
+const [countOfSides,setCountOfSides]=useState('')
 
   useEffect(() => {
     dispatch(getAllCompanies());
@@ -110,8 +285,17 @@ export default function AddBanner() {
         setRentDays(value);
         break;
       case 'expiredDate': // Added
-        setExpiredDate(value);
-        break;
+          setExpiredDate(value);
+          break;
+      case 'countOfSides': // Added
+          setCountOfSides(value);
+          break;
+  
+      case 'description': // Added
+          setDescription(value);
+          break;
+  
+
       default:
         break;
     }
@@ -249,7 +433,7 @@ export default function AddBanner() {
               <Label>Заполните данные баннера</Label>
 
               <form action='' method='POST'>
-                {/* <div>
+                <div>
                   <input
                     ref={inputRef}
                     onChange={handleFileChange}
@@ -266,7 +450,7 @@ export default function AddBanner() {
                       <img src={URL.createObjectURL(selectedFile)} alt='' width={400} height={300} />
                     </>
                   )}
-                </div> */}
+                </div>
                 <br />
                 {/* <label >Наименование баннера</label>
                 <Input
@@ -295,6 +479,256 @@ export default function AddBanner() {
                   </div>
                 </Modal>
                 
+<br /><br />
+                <FormControl>
+                  <InputLabel id="typeOfAdObject-label">Select Type</InputLabel>
+                  <Select
+                    labelId="typeOfAdObject-label"
+                    id="typeOfAdObject"
+                    value={selectedType}
+                    label="Select Type"
+                    onChange={handleTypeChange}
+                  >
+                    {typeOfAdObject.map((item) => (
+                      <MenuItem key={item.id} value={item.nameOfType}>
+                        {item.nameOfType}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                
+                <br /><br />
+                <FormControl>
+                  {/* <InputLabel id="typeOfView-label">Select viewOfAd</InputLabel> */}
+                  <Select
+                    labelId="typeOfView-label"
+                    id="typeOfView"
+                    value={selectedViewOfAd}
+                    label="Select View"
+                    onChange={handleTypeChangeSelectedViewOfAd}
+                  >
+                    {viewOfAd.map((item) => (
+                      <MenuItem key={item.id} value={item.nameOfView}>
+                        {item.nameOfView}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                
+                <br /><br />
+
+              {console.log('Выбранный вид рекламы =',selectedViewOfAd)}
+              <label>{selectedViewOfAd=='Наружняя визуальная реклама за исключением видеоизображения' ? (<>
+               <FormControl style={{'width':'400px'}}>
+                  {/* <InputLabel id="tariffslabel">Select tariff for Наружняя визуальная реклама за исключением видеоизображения </InputLabel> */}
+                  <Select
+                    labelId="tariffs-label"
+                    id="tariffs"
+                    value={selectedTariffsByViewOfAd1}
+                    label="Select Tariffs"
+                    onChange={handleTypeChangeSelectedTariffByViewOfAd}
+                  >
+                    {tariffsByViewOfAd1.map((item) => (
+                      <MenuItem key={item.id} value={item.tariffName}>
+                        {item.tariffName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl></>):(<> Выберите вид рекламы</>)}</label>
+
+                <label>{selectedViewOfAd=='Лайтбокс (сити-формат)' ? (<>
+               <FormControl style={{'width':'400px'}}>
+                  {/* <InputLabel id="tariffslabel">Select tariff for Наружняя визуальная реклама за исключением видеоизображения </InputLabel> */}
+                  <Select
+                    labelId="tariffs-label"
+                    id="tariffs"
+                    value={selectedTariffsByViewOfAd2}
+                    label="Select Tariffs"
+                    onChange={handleTypeChangeSelectedTariffByViewOfAd2}
+                  >
+                    {tariffsByViewOfAd2.map((item) => (
+                      <MenuItem key={item.id} value={item.tariffName}>
+                        {item.tariffName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl></>):(<> </>)}</label>
+               
+
+                <label>{selectedViewOfAd=='Надкрышная световая наружная (визуальная) реклама (светодиномические панно или объемные неоновые буквы)' ? (<>
+               <FormControl style={{'width':'400px'}}>
+                  {/* <InputLabel id="tariffslabel">Select tariff for Наружняя визуальная реклама за исключением видеоизображения </InputLabel> */}
+                  <Select
+                    labelId="tariffs-label"
+                    id="tariffs"
+                    value={selectedTariffsByViewOfAd3}
+                    label="Select Tariffs"
+                    onChange={handleTypeChangeSelectedTariffByViewOfAd3}
+                  >
+                    {tariffsByViewOfAd3.map((item) => (
+                      <MenuItem key={item.id} value={item.tariffName}>
+                        {item.tariffName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl></>):(<> </>)}</label>
+
+
+                <label>{selectedViewOfAd=='Реклама на палатках, тентах, шатрах, навесах, зонтах, флагах, вымпелах, штандартах' ? (<>
+               <FormControl style={{'width':'400px'}}>
+                  {/* <InputLabel id="tariffslabel">Select tariff for Наружняя визуальная реклама за исключением видеоизображения </InputLabel> */}
+                  <Select
+                    labelId="tariffs-label"
+                    id="tariffs"
+                    value={selectedTariffsByViewOfAd4}
+                    label="Select Tariffs"
+                    onChange={handleTypeChangeSelectedTariffByViewOfAd4}
+                  >
+                    {tariffsByViewOfAd4.map((item) => (
+                      <MenuItem key={item.id} value={item.tariffName}>
+                        {item.tariffName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl></>):(<> </>)}</label>
+               
+
+                <label>{selectedViewOfAd=='Реклама на киосках и павильонах временного типа' ? (<>
+               <FormControl style={{'width':'400px'}}>
+                  {/* <InputLabel id="tariffslabel">Select tariff for Наружняя визуальная реклама за исключением видеоизображения </InputLabel> */}
+                  <Select
+                    labelId="tariffs-label"
+                    id="tariffs"
+                    value={selectedTariffsByViewOfAd5}
+                    label="Select Tariffs"
+                    onChange={handleTypeChangeSelectedTariffByViewOfAd5}
+                  >
+                    {tariffsByViewOfAd5.map((item) => (
+                      <MenuItem key={item.id} value={item.tariffName}>
+                        {item.tariffName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl></>):(<> </>)}</label>
+               
+
+                <label>{selectedViewOfAd=='Выносная передвижная реклама' ? (<>
+               <FormControl style={{'width':'400px'}}>
+                  {/* <InputLabel id="tariffslabel">Select tariff for Наружняя визуальная реклама за исключением видеоизображения </InputLabel> */}
+                  <Select
+                    labelId="tariffs-label"
+                    id="tariffs"
+                    value={selectedTariffsByViewOfAd6}
+                    label="Select Tariffs"
+                    onChange={handleTypeChangeSelectedTariffByViewOfAd6}
+                  >
+                    {tariffsByViewOfAd6.map((item) => (
+                      <MenuItem key={item.id} value={item.tariffName}>
+                        {item.tariffName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl></>):(<> </>)}</label>
+               
+                <label>{selectedViewOfAd=='LED экран' ? (<>
+               <FormControl style={{'width':'400px'}}>
+                  {/* <InputLabel id="tariffslabel">Select tariff for Наружняя визуальная реклама за исключением видеоизображения </InputLabel> */}
+                  <Select
+                    labelId="tariffs-label"
+                    id="tariffs"
+                    value={selectedTariffsByViewOfAd7}
+                    label="Select Tariffs"
+                    onChange={handleTypeChangeSelectedTariffByViewOfAd7}
+                  >
+                    {tariffsByViewOfAd7.map((item) => (
+                      <MenuItem key={item.id} value={item.tariffName}>
+                        {item.tariffName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl></>):(<> </>)}</label>
+           
+               
+                <label>{selectedViewOfAd=='Бегущая строка' ? (<>
+               <FormControl style={{'width':'400px'}}>
+                  {/* <InputLabel id="tariffslabel">Select tariff for Наружняя визуальная реклама за исключением видеоизображения </InputLabel> */}
+                  <Select
+                    labelId="tariffs-label"
+                    id="tariffs"
+                    value={selectedTariffsByViewOfAd8}
+                    label="Select Tariffs"
+                    onChange={handleTypeChangeSelectedTariffByViewOfAd8}
+                  >
+                    {tariffsByViewOfAd8.map((item) => (
+                      <MenuItem key={item.id} value={item.tariffName}>
+                        {item.tariffName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl></>):(<> </>)}</label>
+
+
+
+                <label>{selectedViewOfAd=='Уличная мебель' ? (<>
+               <FormControl style={{'width':'400px'}}>
+                  {/* <InputLabel id="tariffslabel">Select tariff for Наружняя визуальная реклама за исключением видеоизображения </InputLabel> */}
+                  <Select
+                    labelId="tariffs-label"
+                    id="tariffs"
+                    value={selectedTariffsByViewOfAd9}
+                    label="Select Tariffs"
+                    onChange={handleTypeChangeSelectedTariffByViewOfAd9}
+                  >
+                    {tariffsByViewOfAd9.map((item) => (
+                      <MenuItem key={item.id} value={item.tariffName}>
+                        {item.tariffName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl></>):(<> </>)}</label>
+
+
+
+             
+                <label>{selectedViewOfAd=='Ситиборд' ? (<>
+               <FormControl style={{'width':'400px'}}>
+                  {/* <InputLabel id="tariffslabel">Select tariff for Наружняя визуальная реклама за исключением видеоизображения </InputLabel> */}
+                  <Select
+                    labelId="tariffs-label"
+                    id="tariffs"
+                    value={selectedTariffsByViewOfAd10}
+                    label="Select Tariffs"
+                    onChange={handleTypeChangeSelectedTariffByViewOfAd10}
+                  >
+                    {tariffsByViewOfAd10.map((item) => (
+                      <MenuItem key={item.id} value={item.tariffName}>
+                        {item.tariffName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl></>):(<> </>)}</label>
+
+
+                <label >Кол-во объектов/сторон</label>
+                <Input
+                  label='номер бwаннера'
+                  name='countOfSides'
+                  value={countOfSides}
+                  onChange={handleChange}
+                  placeholder='Количество объектов/сторон'
+                />
+
+                  <h1>Сделать выбор уведомления</h1>
+                <label >Описание рекламного объекта</label>
+                <Input
+                  label='description'
+                  name='description'
+                  value={description}
+                  onChange={handleChange}
+                  placeholder='Введите описание баннера'
+                />
+
                 <label >Номер баннера</label>
                 <Input
                   label='номер баннера'
@@ -311,7 +745,9 @@ export default function AddBanner() {
                   onChange={handleChange}
                   placeholder='Введите адрес баннера'
                 />
-                {/* <label >Дата начала</label>
+
+
+                <label >Дата начала</label>
                 <Input
                      type="date"
                   label='Created Date' // Added
@@ -329,7 +765,7 @@ export default function AddBanner() {
                   value={expiredDate}
                   onChange={handleChange}
                   placeholder='Введите дату истечения'
-                /> */}
+                />
                 {error && <Typography color='error'>{error}</Typography>}
                 {success && <Typography color='primary'>Данные успешно отправлены.</Typography>}
                 <br />

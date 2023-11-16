@@ -76,9 +76,11 @@ export default function AddBanner() {
   const [selectedCompanyId, setSelectedCompanyId] = useState(null); // New state variable
   const [modalOpen, setModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-
-
-
+  const [isContainProhibitedAD, setIsContainProhibitedAD] = useState(false);
+  const [excludeFromReport, setExcludeFromReport]=useState(false)
+  const [isAdRemoved, setIsAdRemoved]=useState(false)
+  const [isOnListOfDismantling,setIsOnListOfDismantling]=useState(false)
+  const [selectCategoryOfStreet,setCategoryOfStreet]=useState('')
   const categoriesOfStreets = [
     { id: 1, nameOfCategory: 'Категория A'},
     { id: 2, nameOfCategory: 'Категория B'},
@@ -294,7 +296,6 @@ const [countOfSides,setCountOfSides]=useState('')
       case 'description': // Added
           setDescription(value);
           break;
-  
 
       default:
         break;
@@ -328,7 +329,29 @@ const [countOfSides,setCountOfSides]=useState('')
     formData.append('bannerLongitude', markerPosition.lng); // Added
     formData.append('bannerLatitude', markerPosition.lat); // Added
     formData.append('companyId', selectedCompanyId); // Added
-    
+    formData.append('selectedType', selectedType);  //тип рекламы
+    formData.append('selectedViewOfAd',selectedViewOfAd)
+    if (selectedViewOfAd=='Наружняя визуальная реклама за исключением видеоизображения'){formData.append('tariff',selectedTariffsByViewOfAd1)}
+     if(selectedViewOfAd=='Лайтбокс (сити-формат)'){formData.append('tariff',selectedTariffsByViewOfAd2)}
+     if(selectedViewOfAd=='Надкрышная световая наружная (визуальная) реклама (светодиномические панно или объемные неоновые буквы)'){formData.append('tariff',selectedTariffsByViewOfAd3)}
+     if(selectedViewOfAd=='Реклама на палатках, тентах, шатрах, навесах, зонтах, флагах, вымпелах, штандартах'){formData.append('tariff',selectedTariffsByViewOfAd4)}
+     if(selectedViewOfAd=='Реклама на киосках и павильонах временного типа'){formData.append('tariff',selectedTariffsByViewOfAd5)}
+     if(selectedViewOfAd=='Выносная передвижная реклама'){formData.append('tariff',selectedTariffsByViewOfAd6)}
+     if(selectedViewOfAd=='LED экран'){formData.append('tariff',selectedTariffsByViewOfAd7)}
+     if(selectedViewOfAd=='Бегущая строка'){formData.append('tariff',selectedTariffsByViewOfAd8)}
+     if(selectedViewOfAd=='Уличная мебель'){formData.append('tariff',selectedTariffsByViewOfAd9)}
+     if(selectedViewOfAd=='Ситиборд'){formData.append('tariff',selectedTariffsByViewOfAd10)}
+
+     formData.append('countOfSides',countOfSides);
+     formData.append('categoryOfStreet',selectCategoryOfStreet);
+     formData.append('isContainProhibitedAD', isContainProhibitedAD);
+
+    formData.append('excludeFromReport',excludeFromReport)
+    formData.append('isAdRemoved,',isAdRemoved)
+    formData.append('isOnListOfDismantling',isOnListOfDismantling)
+
+
+
 
     await dispatch(addBannerAction(formData));
     setSuccess(true);
@@ -413,9 +436,25 @@ const [countOfSides,setCountOfSides]=useState('')
         </div>
       );
     };
+
+    const handleChangeCategoryOfStreet = (e) => {
+      setCategoryOfStreet(e.target.value ); // Convert the string to boolean
+    };
   
 
+    const handleChangeRadio = (e) => {
+      setIsContainProhibitedAD(e.target.value === 'true'); // Convert the string to boolean
+    };
+    const handleChangeRadioExcludeFromReport = (e) => {
+      setIsContainProhibitedAD(e.target.value === 'true'); // Convert the string to boolean
+    };
+    const handleChangeRadioIsRemoved = (e) => {
+      setIsAdRemoved(e.target.value === 'true'); // Convert the string to boolean
+    };
 
+    const handleChangeRadioIsOnListOfDismantling = (e) => {
+      setIsOnListOfDismantling(e.target.value === 'true'); // Convert the string to boolean
+    };
   return (
     <div className='flexColumn'>
     <Row>
@@ -479,6 +518,34 @@ const [countOfSides,setCountOfSides]=useState('')
                   </div>
                 </Modal>
                 
+
+                <br /><br />
+                <FormControl>
+                  <InputLabel id="typeOfAdObject-label">Select CategoryOfStreet</InputLabel>
+                  <Select
+                    labelId="typeOfAdObject-label"
+                    id="typeOfAdObject"
+                    value={selectCategoryOfStreet}
+                    label="Select Type"
+                    onChange={handleChangeCategoryOfStreet}
+                  >
+                    {categoriesOfStreets.map((item) => (
+                      <MenuItem key={item.id} value={item.nameOfCategory}>
+                        {item.nameOfCategory}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                {selectCategoryOfStreet}
+
+
+
+
+
+
+
+
+
 <br /><br />
                 <FormControl>
                   <InputLabel id="typeOfAdObject-label">Select Type</InputLabel>
@@ -496,8 +563,9 @@ const [countOfSides,setCountOfSides]=useState('')
                     ))}
                   </Select>
                 </FormControl>
-                
+                {selectedType}
                 <br /><br />
+              
                 <FormControl>
                   {/* <InputLabel id="typeOfView-label">Select viewOfAd</InputLabel> */}
                   <Select
@@ -709,6 +777,126 @@ const [countOfSides,setCountOfSides]=useState('')
                   </Select>
                 </FormControl></>):(<> </>)}</label>
 
+
+              
+                <fieldset>
+                                        <legend>Содержит запрещенную рекламу:</legend>
+                                        <div>
+                                            <input
+                                            type="radio"
+                                            id="UR"
+                                            name="drone"
+                                            value={true}
+                                            checked={isContainProhibitedAD}
+                                            onChange={handleChangeRadio}
+                                            />
+                                            <label htmlFor="">Да</label>
+                                        </div>
+
+                                        <div>
+                                            <input
+                                            type="radio"
+                                            id="IP"
+                                            name="drone"
+                                            value={false}
+                                            checked={!isContainProhibitedAD}
+                                            onChange={handleChangeRadio}
+                                            />
+                                            <label htmlFor="IP">Нет</label>
+                                        </div>
+                </fieldset>
+
+                      {console.log('Содержит запрещенную рекламу',isContainProhibitedAD)}
+
+
+                      <fieldset>
+                      <legend>Исключить из отчета:</legend>
+                      <div>
+                        <input
+                          type="radio"
+                          id="excludeYes"
+                          name="excludeFromReport"
+                          value={true}
+                          checked={excludeFromReport}
+                          onChange={handleChangeRadioExcludeFromReport}
+                        />
+                        <label htmlFor="excludeYes">Да</label>
+                      </div>
+
+                      <div>
+                        <input
+                          type="radio"
+                          id="excludeNo"
+                          name="excludeFromReport"
+                          value={false}
+                          checked={!excludeFromReport}
+                          onChange={handleChangeRadioExcludeFromReport}
+                        />
+                        <label htmlFor="excludeNo">Нет</label>
+                      </div>
+                    </fieldset>
+
+
+
+                    <fieldset>
+                    <legend>Реклама удалена:</legend>
+                    <div>
+                      <input
+                        type="radio"
+                        id="removedYes"
+                        name="isAdRemoved"
+                        value={true}
+                        checked={isAdRemoved}
+                        onChange={handleChangeRadioIsRemoved}
+                      />
+                      <label htmlFor="removedYes">Да</label>
+                    </div>
+
+                    <div>
+                      <input
+                        type="radio"
+                        id="removedNo"
+                        name="isAdRemoved"
+                        value={false}
+                        checked={!isAdRemoved}
+                        onChange={handleChangeRadioIsRemoved}
+                      />
+                      <label htmlFor="removedNo">Нет</label>
+                    </div>
+                  </fieldset>
+
+                  <fieldset>
+                    <legend>На списке для демонтажа:</legend>
+                    <div>
+                      <input
+                        type="radio"
+                        id="dismantlingYes"
+                        name="isOnListOfDismantling"
+                        value={true}
+                        checked={isOnListOfDismantling}
+                        onChange={handleChangeRadioIsOnListOfDismantling}
+                      />
+                      <label htmlFor="dismantlingYes">Да</label>
+                    </div>
+
+                    <div>
+                      <input
+                        type="radio"
+                        id="dismantlingNo"
+                        name="isOnListOfDismantling"
+                        value={false}
+                        checked={!isOnListOfDismantling}
+                        onChange={handleChangeRadioIsOnListOfDismantling}
+                      />
+                      <label htmlFor="dismantlingNo">Нет</label>
+                    </div>
+                  </fieldset>
+
+
+                      {/* Исключить из отчета  Exclude from report
+                      Реклама убрана  Advertising removed
+                      В списке на демонтаж  On the list for dismantling
+ */}
 
                 <label >Кол-во объектов/сторон</label>
                 <Input

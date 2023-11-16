@@ -69,18 +69,18 @@ export default function Home() {
                     <div key={index} className="container mt-5 border mb-5">
                         
                         <div className="row p-3">
-                            <div className="col-sm-2">
+                            {/* <div className="col-sm-2">
                                 <img  style={{'width':'100%'}} src={`${host}/${item.imageUrl}`} alt="alt banner"/>
-                            </div>
+                            </div> */}
                             <div className="col-sm-10">
                         
-                                      <p>Banner title: {item.title}</p>
+                                      {/* <p>Banner title: {item.title}</p> */}
                                         <p>Banner number: {item.bannerNumber}</p>
                                         <p>Banner address: {item.banerAddress} </p>
                                         <p>Banner unique code: {item.uniqueCode} </p>
-                                        <p>Banner created date: {item.createdDate}</p>
+                                        {/* <p>Banner created date: {item.createdDate}</p> */}
                                         {/* <p>Срок аренды(в днях): {item.rentDays}</p> */}
-                                        <p>Banner created date: {item.expiredDate}</p>
+                                        {/* <p>Banner created date: {item.expiredDate}</p> */}
                                        
                                         
 

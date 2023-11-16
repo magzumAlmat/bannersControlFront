@@ -40,6 +40,7 @@ import { useEffect } from 'react';
 export default function AddPCompany  () {
     const dispatch = useDispatch();
     
+    const [isUR,setIsUR]=useState(true)
     const [contactPhone,setContactPhone] = useState('');
     const [name, setName] = useState('');
     const [bin, setBin] = useState('');
@@ -62,7 +63,7 @@ export default function AddPCompany  () {
         setServerError(errorFromSlice.message)
         // setServerError('')
         
-    },[errorFromSlice])
+    },[errorFromSlice,isUR])
 
 
     const handleChange = (e) => {
@@ -102,12 +103,15 @@ export default function AddPCompany  () {
         setServerError('')
         console.log('serverErrpr after handleSubmit',serverError)
         setError('');
-        await dispatch(addCompanyAction({name,description,bin,address,contactEmail,contactPhone}));
+        await dispatch(addCompanyAction({name,description,bin,address,contactEmail,contactPhone,isUR}));
         setSuccess(true);
     };
 
   
-    
+    const handleChangeRadio = (e) => {
+        setIsUR(e.target.value === 'true'); // Convert the string to boolean
+      };
+
     return (
         
       
@@ -124,6 +128,35 @@ export default function AddPCompany  () {
                                         Заполните данные компании
                                     </Label>
                                     <form action="" method='POST'>
+                                    <fieldset>
+                                        <legend>Выберите тип компании:</legend>
+                                        <div>
+                                            <input
+                                            type="radio"
+                                            id="UR"
+                                            name="drone"
+                                            value={true}
+                                            checked={isUR}
+                                            onChange={handleChangeRadio}
+                                            />
+                                            <label htmlFor="UR">Юридическое лицо</label>
+                                        </div>
+
+                                        <div>
+                                            <input
+                                            type="radio"
+                                            id="IP"
+                                            name="drone"
+                                            value={false}
+                                            checked={!isUR}
+                                            onChange={handleChangeRadio}
+                                            />
+                                            <label htmlFor="IP">ИП</label>
+                                        </div>
+                                        </fieldset>
+
+                                        {console.log('isUR=',isUR)}
+
                                         <Input label="Name of company" name="name" type="text"
                                             value={name}
                                             onChange={handleChange}

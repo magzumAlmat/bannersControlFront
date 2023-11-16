@@ -73,7 +73,7 @@ export default function Layout(user) {
       }, []);
     
       useEffect(() => {
-        if (map) {
+        if (map) { // Check if the map is available
           var markersLayer = DG.featureGroup().addTo(map);
     
           // Clear existing markers
@@ -81,20 +81,21 @@ export default function Layout(user) {
     
           // Add markers for each marker data object
           bannersArray.forEach((data) => {
-            console.log('data=',data)
+            console.log('data=', data);
             const { bannerLatitude, bannerLongitude, title } = data;
             const position = [parseFloat(bannerLatitude), parseFloat(bannerLongitude)];
-          
-            var marker = DG.marker(position,{
-                icon: DG.icon({
-                  iconUrl: '/banner-icon.png',
-                  iconSize: [40, 40], // Customize the size of the marker icon
-                }),
-              }).addTo(markersLayer);
-            marker.bindPopup(title);
+    
+            var marker = DG.marker(position, {
+              icon: DG.icon({
+                iconUrl: '/banner-icon.png',
+                iconSize: [40, 40],
+              }),
+            }).addTo(markersLayer);
+            marker.bindPopup('Баннер');
           });
         }
       }, [bannersArray, map]);
+
     
     return (
 

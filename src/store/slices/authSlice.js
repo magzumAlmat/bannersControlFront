@@ -166,7 +166,7 @@ export const authSlice = createSlice({
       state.authToken=null
       state.authToken=action.payload
       
-      console.log('PAYLOAD=',action.payload,'codeFromServer=',state.currentUser)
+      console.log('PAYLOAD=',action.payload.token,'codeFromServer=',state.currentUser)
 
       // const decoded = jwt_decode(action.payload.token);
       // console.log('1 authorize decoded token=========', decoded)
@@ -349,7 +349,8 @@ export const  getAllRevises= () => async(dispatch) => {
 };
 
 export const  getAllCompanies= () => async(dispatch) => {
-  console.log('1 getAllBanner started')
+  console.log('1 getAllBanner started', token)
+  
   
   const response = await axios.get(
     `${END_POINT}/api/auth/getallcompanies`,{
@@ -359,7 +360,7 @@ export const  getAllCompanies= () => async(dispatch) => {
       },
     }
   ).then((response) => {
-    console.log('1.2 getAllCompanies response ',response.data)
+    console.log('1.2 getAllCompanies RESPONSE ',response.data)
     dispatch(getAllCompaniesReducer(response.data));
   });
 };
@@ -708,8 +709,8 @@ export const addFullProfileDataAction=(password,phone,name,lastname)=>async(disp
     // You can dispatch an error action here if needed.
   }}
 
-export const addCompanyAction=(name,description,bin,address,contactEmail,contactPhone)=>async(dispatch)=>{
-    console.log('addFullProfileDataAction started',name,description,bin,address,contactEmail,contactPhone)
+export const addCompanyAction=(name,description,bin,address,contactEmail,contactPhone,isUR)=>async(dispatch)=>{
+    console.log('addFullProfileDataAction started',name,description,bin,address,contactEmail,contactPhone,isUR)
   
     const token = localStorage.getItem("token");
   
@@ -721,7 +722,8 @@ export const addCompanyAction=(name,description,bin,address,contactEmail,contact
     formData.append('address', address);
     formData.append('contactEmail', contactEmail);
     formData.append('contactPhone', contactPhone);
-  
+    formData.append('isUR', isUR);
+
     let sometext='text from shareFUNCTION'
   
     // console.log('FORMDATA before pass to redux',formData)
@@ -742,7 +744,10 @@ export const addCompanyAction=(name,description,bin,address,contactEmail,contact
         name,
         description,
         bin,
-        address,contactPhone,contactEmail
+        address,
+        contactPhone,
+        contactEmail,
+        isUR
       };
       console.log('Token from addFullProfileDataAction=',token,'addFullProfileDataAction Started formData=',data.name)
       const response = await axios.post(

@@ -1,14 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   TextField,
   Container,
   Button,
+  Select,
+  MenuItem,
+  Modal,
   Typography,
   Grid,
   Paper,
   Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+
+  
 } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addFullProfileDataAction } from '@/store/slices/authSlice';
 import {
   Collapse,
@@ -34,12 +45,14 @@ import Header from '../header';
 import Link from 'next/link';
 import { useRef } from 'react';
 import { addCompanyAction } from '@/store/slices/authSlice';
-import { addBannerAction } from '@/store/slices/authSlice';
+import { addBannerAction, getAllCompanies } from '@/store/slices/authSlice';
 
 import { GisMap } from '../map';
 
 
 export default function AddBanner() {
+  const allCompaniesFromReducer= useSelector((state) => state.auth.allCompanies);
+  console.log('ALL COMPANIES', allCompaniesFromReducer);
   const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [bannerNumber, setBannerNumber] = useState('');
@@ -56,8 +69,24 @@ export default function AddBanner() {
   const [expiredDate, setExpiredDate] = useState(''); // Added
   const [success, setSuccess] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedCompanyName, setSelectedCompanyName] = useState();
   const inputRef = useRef(null);
   const [error, setError] = useState('');
+  const [selectedCompanyId, setSelectedCompanyId] = useState(null); // New state variable
+  const [modalOpen, setModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const data = [
+    { id: 1, name: 'Company A', address: '123 Main St' },
+    { id: 2, name: 'Company B', address: '456 Oak St' },
+    { id: 3, name: 'Company C', address: '789 Pine St' },
+    // Add more data as needed
+  ];
+
+
+  useEffect(() => {
+    dispatch(getAllCompanies());
+    console.log('all companies =====', allCompaniesFromReducer);
+  },[allCompaniesFromReducer,dispatch]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -96,7 +125,7 @@ export default function AddBanner() {
 
   const handleSubmit = async () => {
     // Проверка наличия всех обязательных полей перед отправкой
-    if (!selectedFile || !bannerAddress ||  !expiredDate) {
+    if ( !bannerAddress ) {
       setError('Пожалуйста, заполните все обязательные поля.');
       return;
     }
@@ -114,6 +143,7 @@ export default function AddBanner() {
     formData.append('expiredDate', expiredDate); // Added
     formData.append('bannerLongitude', markerPosition.lng); // Added
     formData.append('bannerLatitude', markerPosition.lat); // Added
+    formData.append('companyId', selectedCompanyId); // Added
     
 
     await dispatch(addBannerAction(formData));
@@ -130,6 +160,75 @@ export default function AddBanner() {
     console.log('handle click start', selectedFile);
   };
 
+  const handleCompanySelect = (companyId) => {
+    setSelectedCompanyId(companyId);
+    setModalOpen(false);
+  };
+
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+
+  const SearchableTable = () => {
+    const [searchTerm, setSearchTerm] = useState('');
+  
+    const handleSearchChange = (e) => {
+      setSearchTerm(e.target.value);
+    };
+    
+    const selectedCompany = (id) => {
+        console.log('This is selected company Id = ', id);
+        filteredData.map(item => {
+          if (item.id == id) {
+            setSelectedCompanyName(item.name)
+          }
+        })
+        setSelectedCompanyId(id)
+        handleModalClose();
+    }
+  
+    const filteredData = allCompaniesFromReducer.filter(
+      (item) =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.bin.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+      return (
+        <div>
+          <TextField
+            label="Search"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            variant="outlined"
+            fullWidth
+            margin="normal"
+          />
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                <TableCell>Действие</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Bin</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredData.map((row) => (
+                  <TableRow key={row.id}>
+                    <TableCell><Button onClick={()=>selectedCompany(row.id)}>выбрать</Button></TableCell>
+                    <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.bin}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      );
+    };
   
 
 
@@ -150,7 +249,7 @@ export default function AddBanner() {
               <Label>Заполните данные баннера</Label>
 
               <form action='' method='POST'>
-                <div>
+                {/* <div>
                   <input
                     ref={inputRef}
                     onChange={handleFileChange}
@@ -167,9 +266,9 @@ export default function AddBanner() {
                       <img src={URL.createObjectURL(selectedFile)} alt='' width={400} height={300} />
                     </>
                   )}
-                </div>
+                </div> */}
                 <br />
-                <label >Наименование баннера</label>
+                {/* <label >Наименование баннера</label>
                 <Input
                   label='Name of company'
                   name='title'
@@ -177,7 +276,25 @@ export default function AddBanner() {
                   value={title}
                   onChange={handleChange}
                   placeholder='Введите название'
-                />
+                /> */}
+
+<label>{selectedCompanyName ? (<>{selectedCompanyName}</>):(<>Выберите компанию</>)}</label>
+                
+                <Button variant='outlined' color='primary' onClick={handleModalOpen}>
+                  Выбрать компанию
+                </Button>
+
+                <Modal open={modalOpen} onClose={handleModalClose} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ position: 'relative', width: '100vh', height: '100%' }}>
+                    <Paper style={{ width: '100%', height: '100%', padding: '20px', textAlign: 'center' }}>
+                      <SearchableTable/>
+                    </Paper>
+                    <Button onClick={handleModalClose} color='secondary' style={{ position: 'absolute', top: '10px', right: '10px' }}>
+                      Закрыть
+                    </Button>
+                  </div>
+                </Modal>
+                
                 <label >Номер баннера</label>
                 <Input
                   label='номер баннера'
@@ -194,7 +311,7 @@ export default function AddBanner() {
                   onChange={handleChange}
                   placeholder='Введите адрес баннера'
                 />
-                <label >Дата начала</label>
+                {/* <label >Дата начала</label>
                 <Input
                      type="date"
                   label='Created Date' // Added
@@ -212,7 +329,7 @@ export default function AddBanner() {
                   value={expiredDate}
                   onChange={handleChange}
                   placeholder='Введите дату истечения'
-                />
+                /> */}
                 {error && <Typography color='error'>{error}</Typography>}
                 {success && <Typography color='primary'>Данные успешно отправлены.</Typography>}
                 <br />

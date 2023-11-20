@@ -50,7 +50,7 @@ import { addBannerAction, getAllCompanies } from '@/store/slices/authSlice';
 
 import { GisMap } from '../map';
 
-
+import { useDropzone } from 'react-dropzone';
 export default function AddBanner() {
   const allCompaniesFromReducer= useSelector((state) => state.auth.allCompanies);
   console.log('ALL COMPANIES', allCompaniesFromReducer);
@@ -71,6 +71,7 @@ export default function AddBanner() {
   const [success, setSuccess] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedCompanyName, setSelectedCompanyName] = useState();
+  
   const inputRef = useRef(null);
   const [error, setError] = useState('');
   const [selectedCompanyId, setSelectedCompanyId] = useState(null); // New state variable
@@ -320,7 +321,10 @@ const [countOfSides,setCountOfSides]=useState('')
 
     
     const formData = new FormData();
-    formData.append('imageUrl', selectedFile);
+    selectedFiles.forEach(file => {
+      formData.append('imageUrl', file);
+    });
+    // formData.append('imageUrl', selectedFiles);
     formData.append('title', title);
     formData.append('bannerNumber', bannerNumber);
     formData.append('bannerAddress', bannerAddress);
@@ -455,6 +459,26 @@ const [countOfSides,setCountOfSides]=useState('')
     const handleChangeRadioIsOnListOfDismantling = (e) => {
       setIsOnListOfDismantling(e.target.value === 'true'); // Convert the string to boolean
     };
+
+
+    const [selectedFiles, setSelectedFiles] = useState([]);
+   
+
+    const handleClickImagePicker = () => {
+      inputRef.current.click();
+    };
+
+    const handleFileChange1 = (acceptedFiles) => {
+      setSelectedFiles(acceptedFiles);
+    };
+
+    const { getRootProps, getInputProps } = useDropzone({
+      accept: 'image/*', // specify the file types you want to accept
+      multiple: true,
+      maxFiles: 10,
+      onDrop: handleFileChange1,
+    });
+
   return (
     <div className='flexColumn'>
     <Row>
@@ -471,7 +495,7 @@ const [countOfSides,setCountOfSides]=useState('')
             <Col>
               <Label>Заполните данные баннера</Label>
 
-              <form action='' method='POST'>
+              {/* <form action='' method='POST'>
                 <div>
                   <input
                     ref={inputRef}
@@ -489,7 +513,31 @@ const [countOfSides,setCountOfSides]=useState('')
                       <img src={URL.createObjectURL(selectedFile)} alt='' width={400} height={300} />
                     </>
                   )}
-                </div>
+                </div> */}
+                <form action='' method='POST'>
+                    <div {...getRootProps()} style={{ cursor: 'pointer', padding: '20px', border: '2px dashed #ddd' }}>
+                      <input {...getInputProps()} ref={inputRef} style={{ display: 'none' }} />
+                      <p>Перетащите сюда файлы или нажмите, чтобы выбрать файлы</p>
+                    </div>
+
+                    {selectedFiles.length > 0 && (
+                      <>
+                        <p>Выбранные файлы:</p>
+                        <ul>
+                          {selectedFiles.map((file) => (
+                            <li key={file.name}>{file.name}</li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
+
+                    {selectedFiles.length > 0 &&
+                      selectedFiles.map((file) => (
+                        <div key={file.name}>
+                          <img src={URL.createObjectURL(file)} alt='' width={400} height={300} />
+                        </div>
+                    ))}
+                   
                 <br />
                 {/* <label >Наименование баннера</label>
                 <Input

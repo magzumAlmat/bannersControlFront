@@ -93,6 +93,22 @@ export default function InspectorDashboard() {
   // })
 console.log('allrevises',allRevises)
 
+
+
+const imageUrlArray =[]
+ currentItems.map(item=>{
+  console.log('imageUrlArray item=',item)
+  
+  console.log('imageUrlArray splitted paths',item.imageUrl.split(','))
+  imageUrlArray.push(...item.imageUrl.split(','))
+})
+
+
+console.log('ARRAYofImages==',imageUrlArray)
+
+
+
+
   return (
     <div className="container">
       
@@ -144,11 +160,17 @@ console.log('allrevises',allRevises)
               <div key={item.id} className="container mt-5 border mb-5">
                 <div className="row p-3">
                   <div className="col-sm-2">
-                    <img
+                    {/* {console.log('item.imageUrls=',`${host}/${item.imageUrl}`)} */}
+                    {/* <img
                       style={{ width: "100%" }}
                       src={`${host}/${item.imageUrl}`}
                       alt="alt bannвer"
-                    />
+                    /> */}
+
+                    {imageUrlArray.map((imageUrl, index) => (
+                              <img width={90} height={120} key={index} src={`${host}/${imageUrl.trim()}`} alt={`Image ${index}`} />
+                            ))}
+
                   </div>
                   <div className="col-sm-5">
                     <p>Banner title: {item.title}</p>

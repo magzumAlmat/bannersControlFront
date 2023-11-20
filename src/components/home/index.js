@@ -16,13 +16,13 @@ export default function Home() {
     const CompanyId=decodedToken.companyId
     const dispatch=useDispatch()
     const banners= useSelector((state) => state.auth.bannersById);
-    console.log('banners==',banners)
+    console.log('1 banners from UseSelector==',banners)
     const bannersArray=[]
     bannersArray.push(...banners)
-    console.log('1 bannersArray=',bannersArray)
+    console.log('1.1 bannersArray=',bannersArray)
     const [bannersState, setBannersState] = useState([])
-    console.log('2 Current company from home=', CurrentCompany)
-    console.log('3 Current USER=-----', CurrentUSER)
+    // console.log('2 Current company from home=', CurrentCompany)
+    // console.log('3 Current USER=-----', CurrentUSER)
 
     // useEffect(()=>{
     
@@ -56,7 +56,7 @@ export default function Home() {
 
 
 
-    console.log(' 3 BANNERS ARRAY=',bannersArray)
+    // console.log(' 3 BANNERS ARRAY=',bannersArray)
 
     return(
         <div className='container'>

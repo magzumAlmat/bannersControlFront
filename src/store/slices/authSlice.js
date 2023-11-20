@@ -166,7 +166,7 @@ export const authSlice = createSlice({
       state.authToken=null
       state.authToken=action.payload
       
-      console.log('PAYLOAD=',action.payload.token,'codeFromServer=',state.currentUser)
+      // console.log('PAYLOAD=',action.payload.token,'codeFromServer=',state.currentUser)
 
       // const decoded = jwt_decode(action.payload.token);
       // console.log('1 authorize decoded token=========', decoded)

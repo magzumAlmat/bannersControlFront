@@ -1,7 +1,5 @@
 {
-  "/page": "app/page.js",
-  "/addbanner/page": "app/addbanner/page.js",
-  "/inspector/page": "app/inspector/page.js",
-  "/addcompany/page": "app/addcompany/page.js",
-  "/addprofiledatapage/page": "app/addprofiledatapage/page.js"
+  "/not-found": "app/not-found.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/layout/page": "app/layout/page.js"
 }

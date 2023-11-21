@@ -16,7 +16,8 @@ import React from "react"
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 
-const API_KEY = "d11ae1cd-cdbf-4395-a8b0-19c5b6584b84";
+// const API_KEY = "d11ae1cd-cdbf-4395-a8b0-19c5b6584b84";
+// const API_KEY = "b83b032d-0418-41de-bbaa-b028ca3fdb9b"
 
 const center = [43.238566, 76.899828];
 
@@ -53,16 +54,19 @@ export default function Layout(user) {
 
   const [selectedMonth, setSelectedMonth] = useState('all');
 
+  const [selectedBanner, setSelectedBanner] = useState(null);
+
   const handleMonthChange = (event) => {
     setSelectedMonth(event.target.value);
   };
 
+  
   const filteredBanners = selectedMonth === 'all'
-    ? bannersArray
-    : bannersArray.filter(banner => {
-        const bannerMonth = new Date(banner.createdDate).getMonth() + 1; // Months are zero-based
-        return bannerMonth.toString() === selectedMonth;
-      });
+  ? bannersArray
+  : bannersArray.filter(banner => {
+      const bannerMonth = new Date(banner.createdDate).getMonth() + 1; // Months are zero-based
+      return bannerMonth.toString() === selectedMonth;
+    });
 
 
 
@@ -82,6 +86,9 @@ export default function Layout(user) {
       };
 
 
+      const handleMarkerClick = (banner) => {
+        setSelectedBanner(banner);
+      };
       useEffect(() => {
         // Dispatch actions to get banners when the component mounts
         dispatch(getAllBanners());
@@ -92,6 +99,7 @@ export default function Layout(user) {
           // Clear existing markers
           map.geoObjects.removeAll();
     
+          
           // Display only the banners created in the selected month
           filteredBanners.forEach((data) => {
             const { bannerLatitude, bannerLongitude, title } = data;
@@ -130,82 +138,30 @@ export default function Layout(user) {
       width="100vw"
       height="50vh"
     >
-      {filteredBanners.map((banner) => (
+     {filteredBanners.map((banner) => (
             <Placemark
               key={banner.id} // Assuming each banner has a unique ID
               geometry={[parseFloat(banner.bannerLatitude), parseFloat(banner.bannerLongitude)]}
               properties={{
-                iconContent: banner.bannerNumber,
+                iconContent: banner.title,
               }}
               options={{
                 preset: "islands#blueCircleDotIconWithCaption",
               }}
+              onClick={() => handleMarkerClick(banner)} // Set the click handler
             />
           ))}
     </Map>
   </YMaps>
 
+  {selectedBanner && (
+        <div>
+          <p>Banner Number: {selectedBanner.bannerNumber}</p>
+          {/* Add other banner details as needed */}
+        </div>
+      )}
 
-      {/* <YMaps
-      query={{
-        load: "package.full",
-        apikey: API_KEY
-      }}
-    >
-      <>
-  
-        {map && (
-          <div style={{ height: '400px' }}>
-            <Map
-              key={mapKey}
-              center={[43.238566, 76.899828]}
-              zoom={14}
-              instanceRef={(map) => setMap(map)}
-            >
-         
-            </Map>
-          </div>
-        )}
-     
-      </>
-    </YMaps> */}
 
-      {/* <Autocomplete
-        freeSolo
-        filterOptions={(x) => x}
-        value={value}
-        onChange={(event, newValue) => {
-          if (typeof newValue === "string") {
-            setValue(() => newValue);
-            const obg = options.find(
-              (item) =>
-                newValue.includes(item.name) &&
-                newValue.includes(item.description)
-            );
-            const coords = obg.Point.pos
-              .split(" ")
-              .map((item) => Number(item))
-              .reverse();
-            setNewCoords(() => coords);
-            setAddress(() => newValue);
-          } else {
-            console.log(newValue);
-          }
-        }}
-        onInputChange={(e) => {
-          if (e) {
-            setValue(e.target.value);
-          }
-        }}
-        options={options.map((item) => `${item.name} ${item.description}`)}
-        renderInput={(params) => (
-          <TextField {...params} label="Введите адрес" />
-        )}
-      /> */}
-     
-    
-      <br />
-      <div id="map" style={{ width: '100%', height: '400px' }}></div>
       <div>
         <label htmlFor="monthFilter">Filter by Month: </label>
         <select id="monthFilter" value={selectedMonth} onChange={handleMonthChange}>
@@ -223,7 +179,7 @@ export default function Layout(user) {
           <option value="11">Ноябрь 2023</option>
           <option value="12">Декабрь 2023</option>
         </select>
-        <button onClick={handleClearMarkers}>Clear Markers</button>
+        {/* <button onClick={handleClearMarkers}>Clear Markers</button> */}
       </div>
       <Home />
     </>
